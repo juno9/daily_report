@@ -68,6 +68,8 @@ public class Activity_find_user extends AppCompatActivity {
                 Log.i(i + "번째 아이템 선택됨", String.valueOf(i));
 
                 Intent intent = new Intent(getApplicationContext(), Activity_user_profile.class);
+                String user_email=목록.get(i).get이메일();
+                intent.putExtra("user_email",user_email);
                 startActivity(intent);
             }
         });
@@ -143,7 +145,7 @@ public class Activity_find_user extends AppCompatActivity {
                                                 String 프로필이미지 = 아이템제이슨.getString("profile_image");
                                                 Log.i("프로필이미지", 프로필이미지);
 
-                                                Item_user 유저데이터 = new Item_user(프로필이미지, 유저이름, 유저메일);
+                                                Item_user 유저데이터 = new Item_user(프로필이미지, 유저이름, 유저메일,null);
                                                 //기록 아이템은 만들어 줌
 
                                                 목록.add(i, 유저데이터);
