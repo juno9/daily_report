@@ -103,6 +103,7 @@ public class Activity_login extends AppCompatActivity {
                                             } else {
                                                 프리퍼런스헬퍼.setLogin(true);
                                                 프리퍼런스헬퍼.setUser_email(response);
+                                                Log.i("프리퍼런스 들어간 값 확인", 프리퍼런스헬퍼.getUser_email());
                                                 startActivityC(Activity_home.class);
                                                 finish();
                                                 Toast.makeText(getApplicationContext(), response + "님 반갑습니다", Toast.LENGTH_SHORT).show();

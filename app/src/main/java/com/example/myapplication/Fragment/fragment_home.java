@@ -411,6 +411,7 @@ public class fragment_home extends Fragment {
                         public void onResponse(String response) {
                             Log.i("응답", response);
                             기록리스트.clear();
+                            _adapterRecord.notifyDataSetChanged();
                             if (response.equals("기록없음")) {
                                 _adapterRecord.notifyItemChanged(0);
                             } else {

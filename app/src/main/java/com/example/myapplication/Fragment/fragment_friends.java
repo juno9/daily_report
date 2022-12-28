@@ -7,20 +7,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myapplication.Activity_find_user;
+import com.example.myapplication.Adapter_search;
+import com.example.myapplication.Item_user;
+import com.example.myapplication.NetworkStatus;
+import com.example.myapplication.PreferenceHelper;
 import com.example.myapplication.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class fragment_friends extends Fragment {
 
     private View view;
     ImageView 검색버튼;
     private String TAG = "프래그먼트";
+    ListView 유저리스트뷰;
+    ArrayList<Item_user> 유저목록=new ArrayList<>();
+    Adapter_search 유저목록어댑터;
+    PreferenceHelper 프리퍼런스헬퍼;
 
     @Nullable
     @Override
@@ -28,6 +52,7 @@ public class fragment_friends extends Fragment {
         Log.i(TAG, "onCreateView");
         view = inflater.inflate(R.layout.fragment_friends, container, false);
         검색버튼 = view.findViewById(R.id.검색버튼);
+        유저리스트뷰 = view.findViewById(R.id.유저표시리스트뷰);
         검색버튼.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,10 +62,105 @@ public class fragment_friends extends Fragment {
 
             }
         });
+        프리퍼런스헬퍼 = new PreferenceHelper(getActivity());
+        get_following();
+        유저목록어댑터 = new Adapter_search(유저목록, getActivity());
+        유저리스트뷰.setAdapter(유저목록어댑터);
+
 
         return view;
     }
 
+    public void get_following() {
+
+            Log.i("입력된 값이 있다", "있다면");
+            유저목록.clear();
+            Log.i("유저목록 클리어 돌아감", 유저목록.toString());
+
+
+            Log.i("검색어입력", "입력됨");
+            int status = NetworkStatus.getConnectivityStatus(getActivity());
+            //연결여부, 연결된 인터넷 경로를 받아온다(wifi, lte등)
+            String 상태 = String.valueOf(status);
+            Log.i("인터넷상태", 상태);
+            if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
+                Log.i("조건문 진입", "진입");
+
+//                    프로그레스바.setVisibility(View.VISIBLE);
+//                    Log.i("프로그래스바 돌아가기시작", "시작");
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                Log.i("큐 생성", "큐 생성");
+                String url = "http://192.168.219.157/get_followingdata.php";
+                Log.i("url 생성", "유알엘생성");
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+
+                            @Override
+                            public void onResponse(String response) {
+//                                    프로그레스바.setVisibility(View.INVISIBLE);
+//                                    Log.i("프로그래스바 멈춤", "멈춤");
+                                Log.i("응답", response);
+                                try {
+                                    JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
+                                    Log.i("제이슨객체", 제이슨객체.toString());
+                                    String data = 제이슨객체.getString("data");
+                                    Log.i("제이슨 객체 내 data", data);
+                                    JSONArray 제이슨어레이 = new JSONArray(data);
+                                    Log.i("제이슨어레이", 제이슨어레이.toString());
+                                    int 어레이길이 = 제이슨어레이.length();
+                                    Log.i("제이슨어레이 길이", String.valueOf(어레이길이));
+
+                                    for (int i = 0; i < 어레이길이; i++) {
+                                        String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
+                                        Log.i("제이슨어레이 아이템", 제이슨아이템);
+                                        JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
+                                        Log.i("제이슨 아이템" + (i + 1) + "번째: ", 제이슨아이템);
+                                        String 유저메일 = 아이템제이슨.getString("user_email");
+                                        Log.i("유저메일", 유저메일);
+                                        String 유저이름 = 아이템제이슨.getString("user_name");
+                                        Log.i("유저이름", 유저이름);
+                                        String 프로필이미지 = 아이템제이슨.getString("profile_image");
+                                        Log.i("프로필이미지", 프로필이미지);
+
+                                        Item_user 유저데이터 = new Item_user(프로필이미지, 유저이름, 유저메일, null);
+                                        //기록 아이템은 만들어 줌
+
+                                        유저목록.add(i, 유저데이터);
+
+
+                                    }//제이슨 파싱하는 반복문
+                                    유저목록어댑터.setarraylist(유저목록);
+                                    유저목록어댑터.notifyDataSetChanged();
+                                } catch (JSONException e) {
+
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String 에러내용 = String.valueOf(error);
+                        Log.i("온에러리스폰스", 에러내용);
+                    }
+                }) {
+                    // 포스트 파라미터 넣기
+                    @Override
+                    protected Map getParams() {
+                        Map params = new HashMap();
+                        params.put("user_email", 프리퍼런스헬퍼.getUser_email());
+                        Log.i("user_email", 프리퍼런스헬퍼.getUser_email());
+                        return params;
+                    }
+                };
+                // Add the request to the RequestQueue.
+                queue.add(stringRequest);
+            } else {
+                Toast.makeText(getActivity(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+            }
+
+    }
 
 }
 

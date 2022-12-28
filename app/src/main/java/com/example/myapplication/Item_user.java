@@ -6,7 +6,7 @@ public class Item_user {
     String 이메일;
     String 자기소개;
 
-    Item_user(String 이미지url,String 이름,String 이메일,String 자기소개){
+    public Item_user(String 이미지url, String 이름, String 이메일, String 자기소개){
         this.프로필이미지=이미지url;
         this.이름=이름;
         this.이메일=이메일;

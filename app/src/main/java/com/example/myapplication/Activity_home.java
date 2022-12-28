@@ -37,7 +37,7 @@ public class Activity_home extends AppCompatActivity {
 
 
         Log.i("프래그먼트홈", String.valueOf(fragment_home));
-        프리퍼런스헬퍼=new PreferenceHelper(this);
+        프리퍼런스헬퍼=new PreferenceHelper(getApplicationContext());
         String email = 프리퍼런스헬퍼.getUser_email();
         fragment_home = new fragment_home();//메모리를 할당해 둔 fragment_home 변수에 home_fragment라는 클래스의 객체를 할당한다.
         Log.i("홈 액티비티", "홈 프래그먼트 초기화");

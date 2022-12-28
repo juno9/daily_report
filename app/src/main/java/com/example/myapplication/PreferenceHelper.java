@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.media.MediaCodec.MetricsConstants.MODE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -11,9 +14,11 @@ public class PreferenceHelper
     private Context context;
 
     public PreferenceHelper(Context context)
+
     {
-        app_prefs = context.getSharedPreferences("shared", 0);
         this.context = context;
+        app_prefs = context.getSharedPreferences("shared", 0);
+
     }
 
     public void setUser_email(String user_email) {

@@ -103,7 +103,7 @@ public class Activity_sign_up extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 입력하기 전에 호출된다.
+
             }
         });
 
@@ -271,7 +271,7 @@ public class Activity_sign_up extends AppCompatActivity {
                                         // Instantiate the RequestQueue.
                                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                         Log.i("큐 생성함", String.valueOf(queue));
-                                        String url = "http://192.168.219.185/signup.php";
+                                        String url = "http://192.168.219.157/signup.php";
 
 //                                        String url = "http://192.168.0.193/signup.php";
                                         Log.i("url주소 스트링으로 선언", url);
@@ -287,9 +287,12 @@ public class Activity_sign_up extends AppCompatActivity {
                                                     startActivityflag(Activity_login.class);
                                                     Log.i("가입성공", response);
                                                     Toast.makeText(getApplicationContext(), "회원가입에 성공 했습니다.", Toast.LENGTH_SHORT).show();
-                                                } else {
+                                                } else if(response.equals("o")) {
                                                     Log.i("가입실패", response);
                                                     Toast.makeText(getApplicationContext(), "회원가입에 실패 했습니다.", Toast.LENGTH_SHORT).show();
+                                                } else if(response.equals("already")){
+                                                    Log.i("가입실패", response);
+                                                    Toast.makeText(getApplicationContext(), "이미 가입된 이메일 입니다.\n이전 화면으로 돌아가 로그인 해주세요", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
 

@@ -178,8 +178,6 @@ public class Activity_user_profile extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             Log.i("응답", response);
-
-
                             try {
                                 JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
                                 Log.i("제이슨객체", 제이슨객체.toString());
