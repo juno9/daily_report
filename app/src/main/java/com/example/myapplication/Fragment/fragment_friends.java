@@ -1,6 +1,8 @@
 package com.example.myapplication.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +36,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +54,7 @@ public class fragment_friends extends Fragment {
     ArrayList<Item_user> 유저목록=new ArrayList<>();
     Adapter_search 유저목록어댑터;
     PreferenceHelper 프리퍼런스헬퍼;
-
+   Bitmap 비트맵이미지;
 
     @Override
     public void onResume() {
@@ -139,10 +146,43 @@ public class fragment_friends extends Fragment {
                                         Log.i("유저메일", 유저메일);
                                         String 유저이름 = 아이템제이슨.getString("user_name");
                                         Log.i("유저이름", 유저이름);
-                                        String 프로필이미지 = 아이템제이슨.getString("profile_image");
-                                        Log.i("프로필이미지", 프로필이미지);
+                                        String 프로필이미지스트링 = 아이템제이슨.getString("profile_image");
+                                        Log.i("프로필이미지", 프로필이미지스트링);
 
-                                        Item_user 유저데이터 = new Item_user(프로필이미지, 유저이름, 유저메일, null);
+                                        Thread uThread = new Thread() {
+                                            @Override
+                                            public void run(){
+                                                try{
+                                                    //서버에 올려둔 이미지 URL
+                                                    URL url2 = new URL("http://192.168.219.157/images/"+프로필이미지스트링);
+                                                    HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
+                                                    conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
+                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                                    InputStream is = conn.getInputStream(); //inputStream 값 가져오기
+                                                    비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
+//                                                    프로필이미지.setImageBitmap(비트맵이미지);
+
+                                                }catch (MalformedURLException e){
+                                                    e.printStackTrace();
+                                                }catch (IOException e){
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        };
+                                        uThread.start(); // 작업 Thread 실행
+                                        try{
+                                            //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                                            //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                                            //join() 메서드는 InterruptedException을 발생시킨다.
+                                            uThread.join();
+                                            //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                                            //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+                                        }catch (InterruptedException e){
+                                            e.printStackTrace();
+                                        }
+
+
+                                        Item_user 유저데이터 = new Item_user(비트맵이미지, 유저이름, 유저메일, null);
                                         //기록 아이템은 만들어 줌
 
                                         유저목록.add(i, 유저데이터);

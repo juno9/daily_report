@@ -6,7 +6,9 @@
     android:layout_height="100dp"
     android:background="@color/white">
 
-    <ImageView
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/프로필_이미지"
         android:layout_width="60dp"
         android:layout_height="60dp"

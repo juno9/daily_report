@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Adapter_search extends BaseAdapter {
 
     private Context context;
@@ -62,7 +64,7 @@ public class Adapter_search extends BaseAdapter {
         View view=inflate.inflate(R.layout.item_profile,null);
         Log.i("뷰 선언","");
 
-        ImageView 프로필이미지 = (ImageView)view.findViewById(R.id.프로필_이미지);
+       CircleImageView 프로필이미지 = (CircleImageView) view.findViewById(R.id.프로필_이미지);
         Log.i("프로필이미지 선언","");
         TextView 이름 = (TextView)view.findViewById(R.id.프로필_이름);
         Log.i("이름 선언","");
@@ -75,9 +77,9 @@ public class Adapter_search extends BaseAdapter {
         이메일.setText(list.get(position).get이메일());
         이메일.setTextColor(Color.BLACK);
         Log.i("이메일 설정",list.get(position).get이메일());
-        Glide.with(context)
-                .load(R.mipmap.ic_launcher)
-                .into(프로필이미지);
+        if(프로필이미지!=null){
+        프로필이미지.setImageBitmap(list.get(position).get프로필이미지());
+        }
         return view;
     }
 

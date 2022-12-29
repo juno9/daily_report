@@ -64,7 +64,7 @@ public class Activity_profileupdate extends AppCompatActivity {
     PreferenceHelper 프리퍼런스헬퍼;
     String 유저메일;
     Bitmap 비트맵;
-    String 인코드이미지스트링 = null;
+    String 인코드이미지스트링;
     Bitmap 비트맵이미지;
 
     @Override
@@ -123,14 +123,11 @@ public class Activity_profileupdate extends AppCompatActivity {
                         Log.i("url 생성", "유알엘생성");
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {
-
                                     @Override
                                     public void onResponse(String response) {
                                         Log.i("응답내용", response);
                                         if (response.equals("File Uploaded Successfully")) {
-
                                             finish();
-
                                         }
                                     }
                                 }, new Response.ErrorListener() {
@@ -230,11 +227,6 @@ public class Activity_profileupdate extends AppCompatActivity {
                                         }
 
 
-
-
-
-
-
                                         Thread uThread = new Thread() {
                                             @Override
                                             public void run(){
@@ -247,6 +239,7 @@ public class Activity_profileupdate extends AppCompatActivity {
                                                     conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
                                                     InputStream is = conn.getInputStream(); //inputStream 값 가져오기
                                                     비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
+                                                    encodeBitmapImage(비트맵이미지);
 //                                                    프로필이미지.setImageBitmap(비트맵이미지);
 
                                                 }catch (MalformedURLException e){
@@ -302,7 +295,6 @@ public class Activity_profileupdate extends AppCompatActivity {
     private void encodeBitmapImage(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
         인코드이미지스트링 = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
     }

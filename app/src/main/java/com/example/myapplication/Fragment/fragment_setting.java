@@ -63,7 +63,6 @@ public class fragment_setting extends Fragment {
         });
 
 
-
         비밀번호재설정 = (TextView) view.findViewById(R.id.비밀번호변경버튼);
         비밀번호재설정.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +76,8 @@ public class fragment_setting extends Fragment {
         로그아웃.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                프리퍼런스헬퍼.setUser_email(null);
+                프리퍼런스헬퍼.setLogin(false);
 
                 startActivityC(Activity_login.class);
 
@@ -89,7 +90,7 @@ public class fragment_setting extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        
+
         onSaveInstanceState();
     }
 

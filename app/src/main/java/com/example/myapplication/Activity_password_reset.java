@@ -86,7 +86,7 @@ public class Activity_password_reset extends AppCompatActivity {
                                 //여기서 난수를 db에 저장하는 쿼리를 돌리고 결과값을 받아야 한다.
                                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                 Log.i("que", "que");
-                                String url = "http://192.168.219.185/password_reset.php";
+                                String url = "http://192.168.219.157/password_reset.php";
                                 Log.i("url", url);
                                 // Request a string response from the provided URL.
                                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

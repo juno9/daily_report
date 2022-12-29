@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +31,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,6 +70,7 @@ public class Activity_user_profile extends AppCompatActivity {
     SimpleDateFormat 월표시형식 = new SimpleDateFormat("yyyy년 MM월");
     String 프로필주인유저이메일;
     String 로그인한유저이메일;
+    Bitmap 비트맵이미지;
     boolean following;
 
     @Override
@@ -84,6 +92,8 @@ public class Activity_user_profile extends AppCompatActivity {
         date = new Date();
         프로필주인유저이메일 = intent.getStringExtra("user_email");
         로그인한유저이메일 = 프리퍼런스헬퍼.getUser_email();
+
+
 
         팔로우버튼.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,13 +210,53 @@ public class Activity_user_profile extends AppCompatActivity {
                                     Log.i("유저메일", 유저메일);
                                     String 유저이름 = 아이템제이슨.getString("user_name");
                                     Log.i("유저이름", 유저이름);
-                                    String 프로필이미지 = 아이템제이슨.getString("profile_image");
-                                    Log.i("프로필이미지", 프로필이미지);
+                                    String 프로필이미지스트링 = 아이템제이슨.getString("profile_image");
+                                    Log.i("프로필이미지", 프로필이미지스트링);
+                                    String 자기소개 = 아이템제이슨.getString("user_selfintro");
+                                    Log.i("자기소개", 자기소개);
                                     상단이름표시텍스트뷰.setText(유저이름);
                                     프로필이름표시텍스트뷰.setText(유저이름);
-                                    Glide.with(getApplicationContext())
-                                            .load(R.mipmap.ic_launcher)
-                                            .into(프로필이미지뷰);
+                                            if(자기소개.equals("null")){
+
+                                            }else {
+                                                자기소개텍스트뷰.setText(자기소개);
+                                            }
+                                    Thread uThread = new Thread() {
+                                        @Override
+                                        public void run(){
+                                            try{
+                                                //서버에 올려둔 이미지 URL
+
+                                                URL url2 = new URL("http://192.168.219.157/images/"+프로필이미지스트링);
+                                                HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
+                                                conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
+                                                conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                                InputStream is = conn.getInputStream(); //inputStream 값 가져오기
+                                                비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
+//                                                    프로필이미지.setImageBitmap(비트맵이미지);
+
+                                            }catch (MalformedURLException e){
+                                                e.printStackTrace();
+                                            }catch (IOException e){
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    uThread.start(); // 작업 Thread 실행
+
+
+                                    try{
+                                        //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                                        //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                                        //join() 메서드는 InterruptedException을 발생시킨다.
+                                        uThread.join();
+                                        //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                                        //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+                                        프로필이미지뷰.setImageBitmap(비트맵이미지);
+                                    }catch (InterruptedException e){
+                                        e.printStackTrace();
+                                    }
+
 
 
                                 }
