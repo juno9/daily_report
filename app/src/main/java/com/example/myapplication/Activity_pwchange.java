@@ -135,7 +135,7 @@ public class Activity_pwchange extends AppCompatActivity {
                                     // Instantiate the RequestQueue.
                                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                     Log.i("que", String.valueOf(queue));
-                                    String url = "http://192.168.219.185/password_change.php";
+                                    String url = "http://192.168.219.157/password_change.php";
                                     Log.i("url", url);
                                     // Request a string response from the provided URL.
                                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

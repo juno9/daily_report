@@ -87,11 +87,13 @@
     <EditText
         android:id="@+id/자기소개_입력"
         android:layout_width="308dp"
-        android:layout_height="46dp"
+        android:layout_height="90dp"
+        android:maxLength="40"
         android:background="@drawable/edittext_rounded_corner_rectangle"
         android:ems="10"
         android:hint="자기소개를 입력해 주세요"
-        android:inputType="textEmailAddress"
+        android:scrollHorizontally="false"
+        android:inputType="textMultiLine"
         android:padding="10dp"
         android:textColor="@color/black"
         android:textColorHint="#808080"
@@ -100,9 +102,12 @@
         app:layout_constraintHorizontal_bias="0.378"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553" />
+        app:layout_constraintVertical_bias="0.57" />
 
-    <ImageView
+
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/이미지뷰_프로필이미지"
         android:layout_width="153dp"
         android:layout_height="128dp"
@@ -111,7 +116,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121"
-        app:srcCompat="@drawable/graycircle" />
+        app:srcCompat="@drawable/graycircle"
+        />
+
 
     <ImageView
         android:id="@+id/이미지뷰_사진아이콘"

@@ -8,13 +8,13 @@
     android:background="@color/white">
 
     <TextView
-        android:id="@+id/프로필변경버튼"
+        android:id="@+id/프로필수정버튼"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:paddingLeft="30dp"
         android:paddingTop="20dp"
-        android:text="프로필 변경"
+        android:text="프로필 수정"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

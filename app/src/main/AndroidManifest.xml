@@ -12,8 +12,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--  외부 저장장치 읽기권한   -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
+    <!--  카메라 권한   -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -136,7 +136,6 @@
                 android:value="" /></activity>
         <activity
             android:name=".Activity_user_profile"
-
 
             android:exported="true" > <intent-filter>
             <action android:name="android.intent.action.MAIN" />

@@ -43,7 +43,7 @@ public class fragment_setting extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_setting, container, false);
-        프로필변경 = (TextView) view.findViewById(R.id.프로필변경버튼);
+        프로필변경 = (TextView) view.findViewById(R.id.프로필수정버튼);
 
         프리퍼런스헬퍼 = new PreferenceHelper(getActivity());
 
@@ -86,7 +86,15 @@ public class fragment_setting extends Fragment {
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        
+        onSaveInstanceState();
+    }
 
+    private void onSaveInstanceState() {
+    }
 
     // 문자열 인텐트 전달 함수
     public void startActivityString(Class c, String name, String sendString) {
