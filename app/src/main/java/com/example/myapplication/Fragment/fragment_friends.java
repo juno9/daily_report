@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myapplication.Activity_find_user;
+import com.example.myapplication.Activity_user_profile;
 import com.example.myapplication.Adapter_search;
 import com.example.myapplication.Item_user;
 import com.example.myapplication.NetworkStatus;
@@ -46,6 +48,14 @@ public class fragment_friends extends Fragment {
     Adapter_search 유저목록어댑터;
     PreferenceHelper 프리퍼런스헬퍼;
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        get_following();
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,9 +73,19 @@ public class fragment_friends extends Fragment {
             }
         });
         프리퍼런스헬퍼 = new PreferenceHelper(getActivity());
-        get_following();
         유저목록어댑터 = new Adapter_search(유저목록, getActivity());
         유저리스트뷰.setAdapter(유저목록어댑터);
+        유저리스트뷰.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(i + "번째 아이템 선택됨", String.valueOf(i));
+
+                Intent intent = new Intent(getActivity(), Activity_user_profile.class);
+                String user_email=유저목록.get(i).get이메일();
+                intent.putExtra("user_email",user_email);
+                startActivity(intent);
+            }
+        });
 
 
         return view;
@@ -161,6 +181,7 @@ public class fragment_friends extends Fragment {
             }
 
     }
+
 
 }
 

@@ -1,17 +1,26 @@
 package com.example.myapplication.Fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Activity_login;
 import com.example.myapplication.PreferenceHelper;
 import com.example.myapplication.Activity_profileupdate;
@@ -20,9 +29,10 @@ import com.example.myapplication.R;
 
 public class fragment_setting extends Fragment {
 
-    private View view;
+    private ViewGroup view;
 
     private String TAG = "세팅프래그먼트";
+
     TextView 프로필변경;
     TextView 비밀번호재설정;
     TextView 로그아웃;
@@ -32,17 +42,17 @@ public class fragment_setting extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
+        view = (ViewGroup) inflater.inflate(R.layout.fragment_setting, container, false);
+        프로필변경 = (TextView) view.findViewById(R.id.프로필변경버튼);
 
         프리퍼런스헬퍼 = new PreferenceHelper(getActivity());
 
-        view = inflater.inflate(R.layout.fragment_setting, container, false);
         Bundle extra = getArguments();
         if (extra != null) {
             user_email = extra.getString("user_email");
-            Log.e("유저 이름 받기 성공", user_email);
+            Log.i("유저 이름 받기 성공", user_email);
         }
-        프로필변경 = (TextView) view.findViewById(R.id.프로필변경버튼);
+
 
         프로필변경.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +61,8 @@ public class fragment_setting extends Fragment {
                 startActivity(intent);
             }
         });
+
+
 
         비밀번호재설정 = (TextView) view.findViewById(R.id.비밀번호변경버튼);
         비밀번호재설정.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +85,7 @@ public class fragment_setting extends Fragment {
 
         return view;
     }
+
 
 
     // 문자열 인텐트 전달 함수

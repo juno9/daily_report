@@ -10,14 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter_search extends BaseAdapter {
 
-    private Context context=null;
+    private Context context;
     private ArrayList<Item_user> list;
-    private LayoutInflater inflate=null;
+    private LayoutInflater inflate;
     private ViewHolder viewHolder;
 
     public Adapter_search(ArrayList<Item_user> list, Context context){
@@ -73,6 +75,9 @@ public class Adapter_search extends BaseAdapter {
         이메일.setText(list.get(position).get이메일());
         이메일.setTextColor(Color.BLACK);
         Log.i("이메일 설정",list.get(position).get이메일());
+        Glide.with(context)
+                .load(R.mipmap.ic_launcher)
+                .into(프로필이미지);
         return view;
     }
 

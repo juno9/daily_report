@@ -103,7 +103,7 @@
         app:layout_constraintVertical_bias="0.553" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/이미지뷰_프로필이미지"
         android:layout_width="153dp"
         android:layout_height="128dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -111,6 +111,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121"
-        app:srcCompat="@drawable/profile" />
+        app:srcCompat="@drawable/graycircle" />
+
+    <ImageView
+        android:id="@+id/이미지뷰_사진아이콘"
+        android:layout_width="40dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.382"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231"
+        app:srcCompat="@drawable/cameraicon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

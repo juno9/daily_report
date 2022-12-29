@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +42,7 @@ public class Activity_user_profile extends AppCompatActivity {
     ArrayList<Item_day> 날짜목록 = new ArrayList<>();
     ArrayList<Item_record> 기록리스트 = new ArrayList<>();
     ImageView 뒤로가기이미지뷰;
+    ImageView 프로필이미지뷰;
     TextView 상단이름표시텍스트뷰;
     TextView 프로필이름표시텍스트뷰;
     TextView 자기소개텍스트뷰;
@@ -68,6 +70,7 @@ public class Activity_user_profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         뒤로가기이미지뷰 = findViewById(R.id.이미지뷰_뒤로가기);
+        프로필이미지뷰 = findViewById(R.id.이미지뷰_프로필이미지);
         상단이름표시텍스트뷰 = findViewById(R.id.텍스트뷰_이름);
         프로필이름표시텍스트뷰 = findViewById(R.id.텍스트뷰_이름2);
         자기소개텍스트뷰 = findViewById(R.id.텍스트뷰_자기소개);
@@ -201,6 +204,9 @@ public class Activity_user_profile extends AppCompatActivity {
                                     Log.i("프로필이미지", 프로필이미지);
                                     상단이름표시텍스트뷰.setText(유저이름);
                                     프로필이름표시텍스트뷰.setText(유저이름);
+                                    Glide.with(getApplicationContext())
+                                            .load(R.mipmap.ic_launcher)
+                                            .into(프로필이미지뷰);
 
 
                                 }
