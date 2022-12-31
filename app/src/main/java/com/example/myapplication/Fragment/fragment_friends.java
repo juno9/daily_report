@@ -127,76 +127,81 @@ public class fragment_friends extends Fragment {
 //                                    프로그레스바.setVisibility(View.INVISIBLE);
 //                                    Log.i("프로그래스바 멈춤", "멈춤");
                                 Log.i("응답", response);
-                                try {
-                                    JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
-                                    Log.i("제이슨객체", 제이슨객체.toString());
-                                    String data = 제이슨객체.getString("data");
-                                    Log.i("제이슨 객체 내 data", data);
-                                    JSONArray 제이슨어레이 = new JSONArray(data);
-                                    Log.i("제이슨어레이", 제이슨어레이.toString());
-                                    int 어레이길이 = 제이슨어레이.length();
-                                    Log.i("제이슨어레이 길이", String.valueOf(어레이길이));
-
-                                    for (int i = 0; i < 어레이길이; i++) {
-                                        String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
-                                        Log.i("제이슨어레이 아이템", 제이슨아이템);
-                                        JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
-                                        Log.i("제이슨 아이템" + (i + 1) + "번째: ", 제이슨아이템);
-                                        String 유저메일 = 아이템제이슨.getString("user_email");
-                                        Log.i("유저메일", 유저메일);
-                                        String 유저이름 = 아이템제이슨.getString("user_name");
-                                        Log.i("유저이름", 유저이름);
-                                        String 프로필이미지스트링 = 아이템제이슨.getString("profile_image");
-                                        Log.i("프로필이미지", 프로필이미지스트링);
-
-                                        Thread uThread = new Thread() {
-                                            @Override
-                                            public void run(){
-                                                try{
-                                                    //서버에 올려둔 이미지 URL
-                                                    URL url2 = new URL("http://192.168.219.157/images/"+프로필이미지스트링);
-                                                    HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
-                                                    conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
-                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                                                    InputStream is = conn.getInputStream(); //inputStream 값 가져오기
-                                                    비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
-//                                                    프로필이미지.setImageBitmap(비트맵이미지);
-
-                                                }catch (MalformedURLException e){
-                                                    e.printStackTrace();
-                                                }catch (IOException e){
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        };
-                                        uThread.start(); // 작업 Thread 실행
-                                        try{
-                                            //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-                                            //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-                                            //join() 메서드는 InterruptedException을 발생시킨다.
-                                            uThread.join();
-                                            //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-                                            //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-                                        }catch (InterruptedException e){
-                                            e.printStackTrace();
-                                        }
-
-
-                                        Item_user 유저데이터 = new Item_user(비트맵이미지, 유저이름, 유저메일, null);
-                                        //기록 아이템은 만들어 줌
-
-                                        유저목록.add(i, 유저데이터);
-
-
-                                    }//제이슨 파싱하는 반복문
+                                if (response.equals("기록없음")) {
+                                    유저목록.clear();
                                     유저목록어댑터.setarraylist(유저목록);
                                     유저목록어댑터.notifyDataSetChanged();
-                                } catch (JSONException e) {
+                                } else{
+                                    try {
+                                        JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
+                                        Log.i("제이슨객체", 제이슨객체.toString());
+                                        String data = 제이슨객체.getString("data");
+                                        Log.i("제이슨 객체 내 data", data);
+                                        JSONArray 제이슨어레이 = new JSONArray(data);
+                                        Log.i("제이슨어레이", 제이슨어레이.toString());
+                                        int 어레이길이 = 제이슨어레이.length();
+                                        Log.i("제이슨어레이 길이", String.valueOf(어레이길이));
 
-                                    e.printStackTrace();
-                                }
+                                        for (int i = 0; i < 어레이길이; i++) {
+                                            String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
+                                            Log.i("제이슨어레이 아이템", 제이슨아이템);
+                                            JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
+                                            Log.i("제이슨 아이템" + (i + 1) + "번째: ", 제이슨아이템);
+                                            String 유저메일 = 아이템제이슨.getString("user_email");
+                                            Log.i("유저메일", 유저메일);
+                                            String 유저이름 = 아이템제이슨.getString("user_name");
+                                            Log.i("유저이름", 유저이름);
+                                            String 프로필이미지스트링 = 아이템제이슨.getString("profile_image");
+                                            Log.i("프로필이미지", 프로필이미지스트링);
+
+                                            Thread uThread = new Thread() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        //서버에 올려둔 이미지 URL
+                                                        URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
+                                                        HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
+                                                        conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
+                                                        conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                                        InputStream is = conn.getInputStream(); //inputStream 값 가져오기
+                                                        비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
+//                                                    프로필이미지.setImageBitmap(비트맵이미지);
+
+                                                    } catch (MalformedURLException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            };
+                                            uThread.start(); // 작업 Thread 실행
+                                            try {
+                                                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                                                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                                                //join() 메서드는 InterruptedException을 발생시킨다.
+                                                uThread.join();
+                                                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                                                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
 
 
+                                            Item_user 유저데이터 = new Item_user(비트맵이미지, 유저이름, 유저메일, null);
+                                            //기록 아이템은 만들어 줌
+
+                                            유저목록.add(i, 유저데이터);
+
+
+                                        }//제이슨 파싱하는 반복문
+                                        유저목록어댑터.setarraylist(유저목록);
+                                        유저목록어댑터.notifyDataSetChanged();
+                                    } catch (JSONException e) {
+
+                                        e.printStackTrace();
+                                    }
+
+                            }
                             }
                         }, new Response.ErrorListener() {
                     @Override

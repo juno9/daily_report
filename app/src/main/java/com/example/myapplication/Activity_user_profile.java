@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -100,8 +101,11 @@ public class Activity_user_profile extends AppCompatActivity {
             public void onClick(View view) {
                 if (팔로우버튼.getText().toString().equals("팔로우")) {//팔로우 안하고 있으면
                     follow();
+                    Toast.makeText(getApplicationContext(),프로필주인유저이메일+"님을 팔로우합니다",Toast.LENGTH_LONG).show();
+
                 } else {//팔로우 하고 있으면
                     unfollow();
+                    Toast.makeText(getApplicationContext(),프로필주인유저이메일+"님을\n팔로우하지 않습니다.",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -456,6 +460,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                 public void handleMessage(Message msg) {
                                     if (msg.what == 1) {
                                         팔로우버튼.setText("팔로잉");
+
                                         Log.i("get_followdata", "팔로우버튼 텍스트 바꿈-팔로우");
                                     } else {
                                         팔로우버튼.setText("팔로우");
@@ -524,6 +529,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                 public void handleMessage(Message msg) {
                                     if (msg.what == 1) {
                                         팔로우버튼.setText("팔로잉");
+
                                         Log.i("팔로우버튼 텍스트 바꿈", "팔로잉");
                                     } else {
                                         팔로우버튼.setText("팔로우");
@@ -595,6 +601,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                         Log.i("팔로우버튼 텍스트 바꿈", "팔로우");
                                     } else {
                                         팔로우버튼.setText("팔로잉");
+
                                         Log.i("팔로우버튼 텍스트 바꿈", "팔로잉");
                                     }
                                 }
