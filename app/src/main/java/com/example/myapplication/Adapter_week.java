@@ -52,20 +52,21 @@ public class Adapter_week extends RecyclerView.Adapter<Adapter_week.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String 날짜 = 날짜목록.get(position).getDaynum();//오늘 몇일인지 나타내줌
-        String 요일 = 날짜목록.get(position).getDayname();
+        int safeposition= holder.getAdapterPosition();
+        String 날짜 = 날짜목록.get(safeposition).getDaynum();//오늘 몇일인지 나타내줌
+        String 요일 = 날짜목록.get(safeposition).getDayname();
         holder.date.bringToFront();
         holder.date.setText(날짜);
         holder.date.setTextColor(Color.WHITE);
         holder.dayname.setText(요일);
-        if (position == 5) {
+        if (safeposition == 5) {
             holder.image.setImageResource(R.drawable.bluecircle);
 
         }
-        if (position == 6) {
+        if (safeposition == 6) {
             holder.image.setImageResource(R.drawable.redcircle);
         }
-        if (날짜목록.get(position).checked == false) {
+        if (날짜목록.get(safeposition).checked == false) {
             holder.itemView.setBackgroundResource(R.drawable.whiteback);
 
         } else {
