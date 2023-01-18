@@ -95,20 +95,28 @@ public class Activity_user_profile extends AppCompatActivity {
         로그인한유저이메일 = 프리퍼런스헬퍼.getUser_email();
 
 
-
         팔로우버튼.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (팔로우버튼.getText().toString().equals("팔로우")) {//팔로우 안하고 있으면
                     follow();
-                    Toast.makeText(getApplicationContext(),프로필주인유저이메일+"님을 팔로우합니다",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), 프로필주인유저이메일 + "님을 팔로우합니다", Toast.LENGTH_LONG).show();
 
                 } else {//팔로우 하고 있으면
                     unfollow();
-                    Toast.makeText(getApplicationContext(),프로필주인유저이메일+"님을\n팔로우하지 않습니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), 프로필주인유저이메일 + "님을\n팔로우하지 않습니다.", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+        메시지보내기버튼.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Activity_messege.class);
+                startActivity(intent);
+            }
+        });
+
 
         기록표시어댑터 = new Adapter_record(기록리스트);
         주표시어댑터 = new Adapter_week(날짜목록);
@@ -220,18 +228,18 @@ public class Activity_user_profile extends AppCompatActivity {
                                     Log.i("자기소개", 자기소개);
                                     상단이름표시텍스트뷰.setText(유저이름);
                                     프로필이름표시텍스트뷰.setText(유저이름);
-                                            if(자기소개.equals("null")){
+                                    if (자기소개.equals("null")) {
 
-                                            }else {
-                                                자기소개텍스트뷰.setText(자기소개);
-                                            }
+                                    } else {
+                                        자기소개텍스트뷰.setText(자기소개);
+                                    }
                                     Thread uThread = new Thread() {
                                         @Override
-                                        public void run(){
-                                            try{
+                                        public void run() {
+                                            try {
                                                 //서버에 올려둔 이미지 URL
 
-                                                URL url2 = new URL("http://192.168.219.157/images/"+프로필이미지스트링);
+                                                URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
                                                 HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                 conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                 conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
@@ -239,9 +247,9 @@ public class Activity_user_profile extends AppCompatActivity {
                                                 비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
 //                                                    프로필이미지.setImageBitmap(비트맵이미지);
 
-                                            }catch (MalformedURLException e){
+                                            } catch (MalformedURLException e) {
                                                 e.printStackTrace();
-                                            }catch (IOException e){
+                                            } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
                                         }
@@ -249,7 +257,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                     uThread.start(); // 작업 Thread 실행
 
 
-                                    try{
+                                    try {
                                         //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
                                         //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
                                         //join() 메서드는 InterruptedException을 발생시킨다.
@@ -257,10 +265,9 @@ public class Activity_user_profile extends AppCompatActivity {
                                         //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                                         //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
                                         프로필이미지뷰.setImageBitmap(비트맵이미지);
-                                    }catch (InterruptedException e){
+                                    } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-
 
 
                                 }
@@ -348,7 +355,7 @@ public class Activity_user_profile extends AppCompatActivity {
                             Log.i("응답", response);
                             기록리스트.clear();
                             if (response.equals("기록없음")) {
-                                기록표시어댑터.notifyItemChanged(0);
+                                기록표시어댑터.notifyDataSetChanged();
                             } else {
                                 ArrayList<Item_record> 불러온기록어레이 = new ArrayList<>();
                                 try {
