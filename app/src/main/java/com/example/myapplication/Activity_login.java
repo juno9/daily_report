@@ -89,7 +89,8 @@ public class Activity_login extends AppCompatActivity {
                             // Instantiate the RequestQueue.
                             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                             //요청큐 생성
-                            String url = "http://192.168.219.157/login.php";
+//                            String url = "http://192.168.219.157/login.php";
+                            String url = "http://172.30.1.88/login.php";
                             //url 스트링값 생성
 //                            String url = "http://192.168.0.193/login.php";
 
