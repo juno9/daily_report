@@ -55,7 +55,7 @@ public class Activity_messege extends AppCompatActivity {
     TextView 상대유저이름;
     Socket 소켓;
     String 주소 = "192.168.0.5";
-    int 포트 = 10008;
+    int 포트 = 10007;
     PrintWriter 프린트라이터;
     String 받아온메시지;
     Handler 핸들러;
@@ -112,12 +112,12 @@ public class Activity_messege extends AppCompatActivity {
                     소켓 = new Socket(서버주소, 포트);
                     프린트라이터 = new PrintWriter(소켓.getOutputStream());
                     버퍼리더 = new BufferedReader(new InputStreamReader(소켓.getInputStream()));
-                    받아온메시지 = 버퍼리더.readLine();
+
                     프린트라이터.println(유저메일);
                     프린트라이터.flush();//지금 로그인 한 유저 이메일 주소를 서버에 보냄
                     프린트라이터.println(받는유저메일);
                     프린트라이터.flush();//메시지를 받을 상대 유저의 이메일주소를 서버에 보냄
-
+                    받아온메시지 = 버퍼리더.readLine();
                 } catch(UnknownHostException e)
 
                 {
