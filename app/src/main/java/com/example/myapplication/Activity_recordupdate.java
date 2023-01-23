@@ -37,7 +37,7 @@ public class Activity_recordupdate extends AppCompatActivity {
     EditText 제목입력;
 
     EditText 내용입력;
-
+    String ip="192.168.0.5";
     TextView 시작날짜입력;
     TextView 시작시간입력;
     TextView 종료날짜입력;
@@ -94,7 +94,7 @@ public class Activity_recordupdate extends AppCompatActivity {
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     //요청큐 생성
 
-                    url = "http://192.168.219.157/delete_record.php";
+                    url = "http://"+ip+"/delete_record.php";
 
                     //url 스트링값 생성
                     //스트링으로 들어가 있는 년월, 시간을 합쳐야 한다
@@ -446,7 +446,7 @@ public class Activity_recordupdate extends AppCompatActivity {
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     //요청큐 생성
 
-                    url = "http://192.168.219.157/update_record.php";
+                    url = "http://"+ip+"/update_record.php";
                     String 시작날짜시간합치기 = 시작날짜입력.getText().toString() + 시작시간입력.getText().toString();
                     String 종료날짜시간합치기 = 시작날짜입력.getText().toString() + 종료시간입력.getText().toString();
                     Log.i("시작날짜시간 스트링으로 일단 합치기", 시작날짜시간합치기);

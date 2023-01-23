@@ -46,7 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class fragment_friends extends Fragment {
-
+String ip="192.168.0.5";
     private View view;
     ImageView 검색버튼;
     private String TAG = "프래그먼트";
@@ -117,9 +117,8 @@ public class fragment_friends extends Fragment {
 //                    Log.i("프로그래스바 돌아가기시작", "시작");
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
                 Log.i("큐 생성", "큐 생성");
-//                String url = "http://192.168.219.157/get_followingdata.php";
 //
-                        String url = "http://172.30.1.88/get_followingdata.php";
+                        String url = "http://"+ip+"/get_followingdata.php";
                 Log.i("url 생성", "유알엘생성");
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
@@ -161,15 +160,13 @@ public class fragment_friends extends Fragment {
                                                 public void run() {
                                                     try {
                                                         //서버에 올려둔 이미지 URL
-//                                                        URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
-                                                        URL url2 = new URL("http://172.30.1.88/images/" + 프로필이미지스트링);
+                                                        URL url2 = new URL("http://"+ip+"/images/" + 프로필이미지스트링);
                                                         HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                         conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                         conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
                                                         InputStream is = conn.getInputStream(); //inputStream 값 가져오기
                                                         비트맵이미지 = BitmapFactory.decodeStream(is); // Bitmap으로 반환
 //                                                    프로필이미지.setImageBitmap(비트맵이미지);
-
                                                     } catch (MalformedURLException e) {
                                                         e.printStackTrace();
                                                     } catch (IOException e) {
@@ -192,10 +189,7 @@ public class fragment_friends extends Fragment {
 
                                             Item_user 유저데이터 = new Item_user(비트맵이미지, 유저이름, 유저메일, null);
                                             //기록 아이템은 만들어 줌
-
                                             유저목록.add(i, 유저데이터);
-
-
                                         }//제이슨 파싱하는 반복문
                                         유저목록어댑터.setarraylist(유저목록);
                                         유저목록어댑터.notifyDataSetChanged();

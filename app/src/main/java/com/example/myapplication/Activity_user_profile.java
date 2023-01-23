@@ -72,6 +72,7 @@ public class Activity_user_profile extends AppCompatActivity {
     String 프로필주인유저이메일;
     String 로그인한유저이메일;
     Bitmap 비트맵이미지;
+    String ip="192.168.0.5";
     boolean following;
 
     @Override
@@ -92,6 +93,7 @@ public class Activity_user_profile extends AppCompatActivity {
         프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
         date = new Date();
         프로필주인유저이메일 = intent.getStringExtra("user_email");
+        Log.i("프로필주인 이메일",프로필주인유저이메일);
         로그인한유저이메일 = 프리퍼런스헬퍼.getUser_email();
 
 
@@ -113,6 +115,8 @@ public class Activity_user_profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),Activity_messege.class);
+                intent.putExtra("받는유저이메일",프로필주인유저이메일);
+
                 startActivity(intent);
             }
         });
@@ -195,9 +199,8 @@ public class Activity_user_profile extends AppCompatActivity {
 
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             Log.i("큐 생성", "큐 생성");
-//            String url = "http://192.168.219.157/get_userdata.php";
 
-            String url = "http://172.30.1.88/get_userdata.php";
+            String url = "http://"+ip+"/get_userdata.php";
             Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -242,7 +245,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                                 //서버에 올려둔 이미지 URL
 
 //                                                URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
-                                                URL url2 = new URL("http://172.30.1.88/images/" + 프로필이미지스트링);
+                                                URL url2 = new URL("http://"+ip+"/images/" + 프로필이미지스트링);
                                                 HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                 conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                 conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
@@ -348,7 +351,8 @@ public class Activity_user_profile extends AppCompatActivity {
         if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             //요청큐 생성
-            String url = "http://192.168.219.157/get_record.php";
+
+String url = "http://"+ip+"/get_record.php";
             //url 스트링값 생성
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -458,7 +462,8 @@ public class Activity_user_profile extends AppCompatActivity {
             Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             Log.i("큐 생성", "큐 생성");
-            String url = "http://192.168.219.157/get_followdata.php";
+String url = "http://"+ip+"/get_followdata.php";
+
             Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -527,7 +532,9 @@ public class Activity_user_profile extends AppCompatActivity {
             Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             Log.i("큐 생성", "큐 생성");
-            String url = "http://192.168.219.157/follow.php";
+
+
+            String url = "http://"+ip+"/follow.php";
             Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -595,7 +602,8 @@ public class Activity_user_profile extends AppCompatActivity {
             Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             Log.i("큐 생성", "큐 생성");
-            String url = "http://192.168.219.157/unfollow.php";
+
+            String url = "http://"+ip+"/unfollow.php";
             Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {

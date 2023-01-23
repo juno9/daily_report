@@ -44,6 +44,7 @@ import java.util.Map;
 
 public class Activity_find_user extends AppCompatActivity {
     private ArrayList<String> arraylist;
+    String ip="192.168.0.5";
     EditText 검색어입력;
     ListView 검색결과리스트뷰;
     ArrayList<Item_user> 목록 = new ArrayList<Item_user>();
@@ -120,9 +121,8 @@ public class Activity_find_user extends AppCompatActivity {
 //                    Log.i("프로그래스바 돌아가기시작", "시작");
                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                         Log.i("큐 생성", "큐 생성");
-//                        String url = "http://192.168.219.157/search_user.php";
-
-                        String url = "http://172.30.1.88/search_user.php";
+//
+                        String url = "http://"+ip+"/search_user.php";
                         Log.i("url 생성", "유알엘생성");
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {
@@ -157,8 +157,8 @@ public class Activity_find_user extends AppCompatActivity {
                                                     public void run() {
                                                         try {
                                                             //서버에 올려둔 이미지 URL
-//                                                            URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
-                                                            URL url2 = new URL("http://172.30.1.88/images/" + 프로필이미지스트링);
+//
+                                                            URL url2 = new URL("http://"+ip+"/images/" + 프로필이미지스트링);
 
                                                             HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                             conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦

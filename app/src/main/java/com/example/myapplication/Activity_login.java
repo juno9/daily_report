@@ -27,7 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Activity_login extends AppCompatActivity {
-
+    String ip="192.168.0.5";
     EditText 이메일입력;
     EditText 비밀번호입력;
     String TAG = "로그인액티비티";
@@ -89,10 +89,10 @@ public class Activity_login extends AppCompatActivity {
                             // Instantiate the RequestQueue.
                             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                             //요청큐 생성
-//                            String url = "http://192.168.219.157/login.php";
-                            String url = "http://172.30.1.88/login.php";
+
+                            String url = "http://"+ip+"/login.php";
                             //url 스트링값 생성
-//                            String url = "http://192.168.0.193/login.php";
+
 
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                                     new Response.Listener<String>() {

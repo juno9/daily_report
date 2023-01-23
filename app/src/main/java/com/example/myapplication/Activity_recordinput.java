@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class Activity_recordinput extends AppCompatActivity {
     EditText 제목입력;
-
+    String ip="192.168.0.5";
     EditText 내용입력;
     EditText 집중도입력;
     TextView 시작날짜입력;
@@ -363,7 +363,7 @@ public class Activity_recordinput extends AppCompatActivity {
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     //요청큐 생성
 
-                    url = "http://192.168.219.157/put_record.php";
+                    url = "http://"+ip+"/put_record.php";
 
                     String 시작날짜시간합치기 = 시작날짜입력.getText().toString() + 시작시간입력.getText().toString();
                     Log.i("시작날짜시간 스트링으로 일단 합치기", 시작날짜시간합치기);
