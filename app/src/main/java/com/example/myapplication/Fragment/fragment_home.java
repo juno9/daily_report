@@ -32,6 +32,7 @@ import com.example.myapplication.Item_day;
 import com.example.myapplication.Item_record;
 import com.example.myapplication.NetworkStatus;
 import com.example.myapplication.R;
+import com.example.myapplication.ipclass;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -48,7 +49,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class fragment_home extends Fragment {
-    String ip="192.168.0.5";
+    String ip= ipclass.ip;
     String TAG = "홈프래그먼트";
     ViewGroup 뷰;
     RecyclerView week_recycler;//주 날짜 표시 리사이클러뷰 선언

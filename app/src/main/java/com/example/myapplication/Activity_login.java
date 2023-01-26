@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,10 +28,12 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Activity_login extends AppCompatActivity {
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     EditText 이메일입력;
     EditText 비밀번호입력;
     String TAG = "로그인액티비티";
+    public static Socket 소켓;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,7 @@ public class Activity_login extends AppCompatActivity {
                                             if (response.equals("로그인 실패")) {//형 변환 이슈
                                                 Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                                             } else {
+
                                                 프리퍼런스헬퍼.setLogin(true);
                                                 프리퍼런스헬퍼.setUser_email(response);
                                                 Log.i("프리퍼런스 들어간 값 확인", 프리퍼런스헬퍼.getUser_email());

@@ -24,7 +24,7 @@ import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 
 public class Activity_password_reset extends AppCompatActivity {
-String ip="192.168.0.5";
+String ip=ipclass.ip;
     TextView 안내텍스트뷰;
     EditText 이메일주소입력;
     Button 메일전송버튼;

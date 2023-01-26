@@ -37,7 +37,7 @@ public class Activity_recordupdate extends AppCompatActivity {
     EditText 제목입력;
 
     EditText 내용입력;
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     TextView 시작날짜입력;
     TextView 시작시간입력;
     TextView 종료날짜입력;

@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class Activity_recordinput extends AppCompatActivity {
     EditText 제목입력;
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     EditText 내용입력;
     EditText 집중도입력;
     TextView 시작날짜입력;

@@ -31,7 +31,7 @@ import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 
 public class Activity_sign_up extends AppCompatActivity {
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     EditText 닉네임입력;
     EditText 이메일입력;
     EditText 인증번호입력;

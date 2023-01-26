@@ -54,29 +54,36 @@ public class Activity_messege extends AppCompatActivity {
     Button 보내기버튼;
     TextView 상대유저이름;
     Socket 소켓;
-    String 주소 = "192.168.0.5";
-    int 포트 = 10007;
+    String 주소 = ipclass.ip;
+    int 포트 = 10056;
     PrintWriter 프린트라이터;
     String 받아온메시지;
     Handler 핸들러;
     String 보낼메시지;
     String 유저메일;
     String 받는유저메일;
-    String UserID;
+    String 보내는메시지;
     PreferenceHelper 프리퍼런스헬퍼;
     ArrayList<Item_message> 메시지목록 = new ArrayList<>();
     Adapter_message 메시지어댑터;
     BufferedReader 버퍼리더;
+    String 현재시간;
+    String 서버보낸유저;
+    String 서버받는유저;
 
     @Override
     protected void onPause() {
         super.onPause();
-        try{
+        Log.i("생명주기", "온 퍼즈");
+        try {
+            프린트라이터.println("quit");
+            프린트라이터.flush();
+            프린트라이터.close();
+            버퍼리더.close();
             소켓.close();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-
     }
 
     @Override
@@ -84,99 +91,69 @@ public class Activity_messege extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-        채팅리스트뷰 = findViewById(R.id.리스트뷰_채팅내용);
+        Date now = new Date();
+        SimpleDateFormat 시간변환 = new SimpleDateFormat("hh:mm:ss");
+        현재시간 = 시간변환.format(now);
         입력창 = findViewById(R.id.입력란_채팅내용);
         보내기버튼 = findViewById(R.id.버튼_전송);
         상대유저이름 = findViewById(R.id.텍스트뷰_상대유저이름);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
-
         유저메일 = 프리퍼런스헬퍼.getUser_email();
         받는유저메일 = getIntent().getStringExtra("받는유저이메일");
         Log.i("보내는 유저", 유저메일);
         Log.i("받는 유저", 받는유저메일);
-
+        채팅리스트뷰 = findViewById(R.id.리스트뷰_채팅내용);
+        gethistory(유저메일, 받는유저메일);//이전 메시지 기록들
         메시지어댑터 = new Adapter_message(메시지목록, this);//어댑터 선언
         채팅리스트뷰.setAdapter(메시지어댑터);
-
-
-        Thread 연결스레드=new Thread() {
+        핸들러 = new Handler() {
             @Override
-            public void run() {
-                super.run();
-                InetAddress 서버주소 = null;
-                try
-
-                {//액티비티 들어오면서 소켓을 하나만 만들어주고
-                    서버주소 = InetAddress.getByName(주소);
-                    소켓 = new Socket(서버주소, 포트);
-                    프린트라이터 = new PrintWriter(소켓.getOutputStream());
-                    버퍼리더 = new BufferedReader(new InputStreamReader(소켓.getInputStream()));
-
-                    프린트라이터.println(유저메일);
-                    프린트라이터.flush();//지금 로그인 한 유저 이메일 주소를 서버에 보냄
-                    프린트라이터.println(받는유저메일);
-                    프린트라이터.flush();//메시지를 받을 상대 유저의 이메일주소를 서버에 보냄
-                    받아온메시지 = 버퍼리더.readLine();
-                } catch(UnknownHostException e)
-
-                {
-                    e.printStackTrace();
-                } catch(IOException e)
-
-                {
-                    e.printStackTrace();
-                }
-            }
-
-
-        };
-        연결스레드.start();
-
-
-
-
-        gethistory(유저메일, 받는유저메일);//이전 메시지 기록들
-
-        핸들러 = new Handler(){
-            public void handleMessage(Message msg){
-                Log.i("받은 핸들러 메시지",String.valueOf(msg.what));
-                if(msg.what ==0){
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) {
                     메시지어댑터.notifyDataSetChanged();
-                    Log.i("노티 여부","노티 함");
+                    Log.i("메시지 전달받고 노티함", "노티함");
                 }
             }
+
         };
 
-
-
-        Thread 메시지보내기스레드=new Thread() {//새로운 스레드가 돌면서 메시지를 보내주고 받아온다.
+        new Thread() {
             public void run() {
                 try {
+                    InetAddress serverAddr = InetAddress.getByName(주소);
+                    소켓 = new Socket(serverAddr, 포트);
+                    Log.i("소켓만들어줌", "연결됨");
+                    프린트라이터 = new PrintWriter(소켓.getOutputStream());
+                    BufferedReader input = new BufferedReader(new InputStreamReader(소켓.getInputStream()));
+                    프린트라이터.println(유저메일);
+                    프린트라이터.flush();
+                    Log.i("보내는유저 보냄", 유저메일);
+                    프린트라이터.println(받는유저메일);
+                    프린트라이터.flush();
+                    Log.i("받는유저 보냄", 받는유저메일);
 
                     while (true) {
-                        //데이터를 받아옴
-                        Log.i("서버에서 받은 메시지", 받아온메시지);
+                        받아온메시지 = input.readLine();
+                        Log.i("서버로부터 받아온 메시지 내용", 받아온메시지);
+                        Item_message 받아온메시지아이템 = new Item_message("receivedMessage", 현재시간, 받아온메시지, 받는유저메일, 유저메일);
+                        메시지목록.add(받아온메시지아이템);
+                        Log.i("[받기]메시지 목록에 추가함", "추가함");
                         if (받아온메시지 != null) {
-                            Log.i("받아온 메시지", 받아온메시지);
-                            Item_message 메시지 = new Item_message("sentMessage", "11:11:11", 받아온메시지, 받는유저메일, 유저메일);
-
-                            Log.i("보낸유저메일",유저메일);
-                            Log.i("받는유저메일",받는유저메일);
-
-                            메시지목록.add(메시지);
-                            메시지어댑터.setarraylist(메시지목록);
-                            //여기서 핸들러에 보낼 메시지 객체를 만들고 보내주자.
-                            핸들러.sendEmptyMessage(0);
+                            Message msg2 = 핸들러.obtainMessage();
+                            Log.i("[받기]기들러에 보낼 메시지 객체 생성함", "생성함");
+                            msg2.what = 1;
+                            Log.i("[받기]핸들러에 보낼 메시지 객체 의 what값을 설정함", "설정함");
+                            핸들러.sendMessage(msg2);
+                            Log.i("핸들러에 메시지객체를 전달함", "전달함");
+                            //여기서 핸들러에 어떤 작업을 해주면 핸들러에서 리스트뷰에 노티를 해주자
                         }
                     }
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        };
-
-        메시지보내기스레드.start();
+        }.start();
 
         보내기버튼.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,36 +164,47 @@ public class Activity_messege extends AppCompatActivity {
                     public void run() {
                         super.run();
                         try {
-                            Item_message 메시지 = new Item_message("sentMessage", "11:11:11", 보낼메시지, 유저메일, 받는유저메일);
-                            메시지목록.add(메시지);
+                            Item_message 받아온메시지아이템 = new Item_message("sentMessage", 현재시간, 보낼메시지, 유저메일, 받는유저메일);
+                            메시지목록.add(받아온메시지아이템);
+
+                            Message msg2 = 핸들러.obtainMessage();
+                            Log.i("[보내기]핸들러에 보낼 메시지 객체 생성함", "생성함");
+                            msg2.what = 1;
+                            Log.i("[보내기]핸들러에 보낼 메시지 객체 의 what값을 설정함", "설정함");
+                            핸들러.sendMessage(msg2);
+                            Log.i("[보내]핸들러에 메시지객체를 전달함", "전달함");
+                            //여기서 핸들러에 어떤 작업을 해주면 핸들러에서 리스트뷰에 노티를 해주자
                             프린트라이터.println(보낼메시지);// 출력 스트림으로 흘려보내기 전, 프린트라이터에 텍스트를 담음
                             프린트라이터.flush();//프린트라이터에 담긴 메시지를 아웃풋스트림에 흘려보냄
                             입력창.setText("");//기존입력 내용을 ""으로 대체함
-                            Log.i("스레드개수", String.valueOf(Thread.activeCount()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 }.start();
-                메시지어댑터.notifyDataSetChanged();
             }
         });
-    }//온크리에이트
-
-    class msgUpdate implements Runnable {
-        private String msg;
-
-        public msgUpdate(String str) {
-            this.msg = str;
-        }
-
-        @Override
-        public void run() {
-
-            Log.i("입력함", msg);
-        }
     }
 
+
+    //    class msgUpdate implements Runnable{
+//
+//
+//        private String msg;
+//
+//        public msgUpdate(String str) {
+//            this.msg=str;
+//        }
+//
+//
+//        @Override
+//        public void run() {
+//            Item_message 메시지 = new Item_message("reveivedMessage", "11:11:11", msg, 받는유저메일, 유저메일);
+//            메시지목록.add(메시지);
+//
+//            메시지어댑터.notifyDataSetChanged();
+//        }
+//    }
     public void gethistory(String 보내는유저, String 받는유저) {
         {
             int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
@@ -303,6 +291,7 @@ public class Activity_messege extends AppCompatActivity {
             }
         }
     }//이전 채팅 목록 받아오는 코드
-
-
 }
+
+
+

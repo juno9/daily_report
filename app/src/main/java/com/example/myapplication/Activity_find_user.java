@@ -44,7 +44,7 @@ import java.util.Map;
 
 public class Activity_find_user extends AppCompatActivity {
     private ArrayList<String> arraylist;
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     EditText 검색어입력;
     ListView 검색결과리스트뷰;
     ArrayList<Item_user> 목록 = new ArrayList<Item_user>();

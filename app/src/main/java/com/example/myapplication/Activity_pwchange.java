@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Activity_pwchange extends AppCompatActivity {
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
 
     EditText 현재비밀번호;
     EditText 새비밀번호;

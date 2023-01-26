@@ -14,6 +14,9 @@ import com.example.myapplication.Fragment.fragment_home;
 import com.example.myapplication.Fragment.fragment_setting;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.net.InetAddress;
+import java.net.Socket;
+
 public class Activity_home extends AppCompatActivity {
 
     BottomNavigationView 바텀내비게이션;
@@ -24,6 +27,7 @@ public class Activity_home extends AppCompatActivity {
     PreferenceHelper 프리퍼런스헬퍼;
 
     private String TAG = "프래그먼트";
+
 
 
     @Override
@@ -46,6 +50,7 @@ public class Activity_home extends AppCompatActivity {
 
         fragment_setting = new fragment_setting();
         Log.i("홈 액티비티", "세팅프래그먼트 초기화");
+
 
 
         Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수

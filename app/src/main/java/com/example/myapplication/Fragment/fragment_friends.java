@@ -31,6 +31,7 @@ import com.example.myapplication.Item_user;
 import com.example.myapplication.NetworkStatus;
 import com.example.myapplication.PreferenceHelper;
 import com.example.myapplication.R;
+import com.example.myapplication.ipclass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class fragment_friends extends Fragment {
-String ip="192.168.0.5";
+String ip= ipclass.ip;
     private View view;
     ImageView 검색버튼;
     private String TAG = "프래그먼트";

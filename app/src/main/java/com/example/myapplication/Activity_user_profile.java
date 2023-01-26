@@ -72,7 +72,7 @@ public class Activity_user_profile extends AppCompatActivity {
     String 프로필주인유저이메일;
     String 로그인한유저이메일;
     Bitmap 비트맵이미지;
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     boolean following;
 
     @Override

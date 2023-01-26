@@ -53,7 +53,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Activity_profileupdate extends AppCompatActivity {
-    String ip="192.168.0.5";
+    String ip=ipclass.ip;
     String TAG = "Activity_profileupdate";
     CircleImageView 프로필이미지;
     ImageView 카메라이미지;
