@@ -74,6 +74,7 @@ public class Activity_user_profile extends AppCompatActivity {
     Bitmap 비트맵이미지;
     String ip=ipclass.ip;
     boolean following;
+    String 프로필이미지스트링;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,8 @@ public class Activity_user_profile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),Activity_messege.class);
                 intent.putExtra("받는유저이메일",프로필주인유저이메일);
-
+//                intent.putExtra("비트맵이미지",비트맵이미지);
+//                Log.i("유저 프로필에서 메시지페이지로 넘기는 비트맵이미지",비트맵이미지.toString());
                 startActivity(intent);
             }
         });
@@ -227,7 +229,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                     Log.i("유저메일", 유저메일);
                                     String 유저이름 = 아이템제이슨.getString("user_name");
                                     Log.i("유저이름", 유저이름);
-                                    String 프로필이미지스트링 = 아이템제이슨.getString("profile_image");
+                                    프로필이미지스트링 = 아이템제이슨.getString("profile_image");
                                     Log.i("프로필이미지", 프로필이미지스트링);
                                     String 자기소개 = 아이템제이슨.getString("user_selfintro");
                                     Log.i("자기소개", 자기소개);

@@ -27,6 +27,8 @@ import com.example.myapplication.Activity_profileupdate;
 import com.example.myapplication.Activity_pwchange;
 import com.example.myapplication.R;
 
+import java.io.IOException;
+
 public class fragment_setting extends Fragment {
 
     private ViewGroup view;
@@ -78,7 +80,21 @@ public class fragment_setting extends Fragment {
             public void onClick(View view) {
                 프리퍼런스헬퍼.setUser_email(null);
                 프리퍼런스헬퍼.setLogin(false);
-
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            Activity_login.프린트라이터.println("/exit");
+                            Activity_login.프린트라이터.flush();
+                            Activity_login.소켓.close();
+                            Activity_login.버퍼리더.close();
+                            Activity_login.프린트라이터.close();
+                        } catch (
+                                IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
                 startActivityC(Activity_login.class);
 
             }

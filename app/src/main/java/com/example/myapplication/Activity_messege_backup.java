@@ -1,10 +1,6 @@
 package com.example.myapplication;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -34,11 +29,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -47,7 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Activity_messege extends AppCompatActivity {
+public class Activity_messege_backup extends AppCompatActivity {
 
     ListView 채팅리스트뷰;
     EditText 입력창;
@@ -66,39 +57,32 @@ public class Activity_messege extends AppCompatActivity {
     PreferenceHelper 프리퍼런스헬퍼;
     ArrayList<Item_message> 메시지목록 = new ArrayList<>();
     Adapter_message 메시지어댑터;
-    Bitmap 프로필이미지;
+    String 프로필이미지;
     String 현재시간;
     URL url2;
     ImageView 뒤로가기;
-
-    Thread_receiver 받기쓰레드;
-    ImageView 프로필이미지뷰;
-//    내용받기쓰레드 내받스;
+    Bitmap 비트맵이미지;
+    내용받기쓰레드 내받스;
 
     @Override
     protected void onPause() {
         super.onPause();
         setContentView(R.layout.activity_message);
         Log.i("생명주기", "온 퍼즈");
-        Toast.makeText(getApplicationContext(),"온 퍼즈",Toast.LENGTH_LONG).show();
 
-        받기쓰레드.set핸들러(this.핸들러);
-        받기쓰레드.대화중 = false;
-        받기쓰레드.set대화상대("");
-        받기쓰레드.set메시지목록(null);
         new Thread() {
             @Override
             public void run() {
                 try {
                     프린트라이터.println("/quit");
                     프린트라이터.flush();
-//                    내받스.interrupt();
+                    내받스.interrupt();
 
-//                    Log.i("[온퍼스]", "받는 스레드 id" + 내받스.getId());
-//                    Log.i("[온퍼스]", "받는 스레드 현재상태" + 내받스.getState());
-//                    Log.i("[온퍼스]", "받는 스레드 이름" + 내받스.getName());
-//                    Log.i("[온퍼스]", "받는 스레드 살아있는지" + 내받스.isAlive());
-//                    Log.i("[온퍼스]", "받는 스레드 멈춤" + 내받스.isInterrupted());
+                    Log.i("[온퍼스]", "받는 스레드 id" + 내받스.getId());
+                    Log.i("[온퍼스]", "받는 스레드 현재상태" + 내받스.getState());
+                    Log.i("[온퍼스]", "받는 스레드 이름" + 내받스.getName());
+                    Log.i("[온퍼스]", "받는 스레드 살아있는지" + 내받스.isAlive());
+                    Log.i("[온퍼스]", "받는 스레드 멈춤" + 내받스.isInterrupted());
                 } catch (Exception e) {
 
                 }
@@ -107,36 +91,10 @@ public class Activity_messege extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(getApplicationContext(),"온 스탑",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getApplicationContext(),"온 디스트로이",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Toast.makeText(getApplicationContext(),"온 리스타트",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(getApplicationContext(),"온 스타트",Toast.LENGTH_LONG).show();
-    }
-
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        Toast.makeText(getApplicationContext(),"온 크리에이트",Toast.LENGTH_LONG).show();
+
         Date now = new Date();
         SimpleDateFormat 시간변환 = new SimpleDateFormat("hh:mm:ss");
         현재시간 = 시간변환.format(now);
@@ -144,15 +102,12 @@ public class Activity_messege extends AppCompatActivity {
         보내기버튼 = findViewById(R.id.버튼_전송);
         상대유저이름 = findViewById(R.id.텍스트뷰_상대유저이름);
         뒤로가기 = findViewById(R.id.이미지뷰_뒤로가기2);
-        프로필이미지뷰 = findViewById(R.id.이미지뷰_프로필이미지);
-        Intent intent = getIntent();
+        상대유저이름.setText(받는유저메일);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
         유저메일 = 프리퍼런스헬퍼.getUser_email();
-        받는유저메일 = intent.getStringExtra("받는유저이메일");
-        프로필이미지 = (Bitmap) intent.getParcelableExtra("비트맵이미지");
-        프로필이미지뷰.setImageBitmap(프로필이미지);
-        상대유저이름.setText(받는유저메일);
+        받는유저메일 = getIntent().getStringExtra("받는유저이메일");
+        프로필이미지 = getIntent().getStringExtra("프로필이미지스트링");
         소켓 = Activity_login.소켓;
         프린트라이터 = Activity_login.프린트라이터;
         버퍼리더 = Activity_login.버퍼리더;
@@ -178,26 +133,9 @@ public class Activity_messege extends AppCompatActivity {
 
         };
 
-        받기쓰레드 = (Thread_receiver) Activity_login.내용받는쓰레드;
-        Log.i("받기 쓰레드 id", String.valueOf(받기쓰레드.getId()));
-        Log.i("받기 쓰레드 Name", String.valueOf(받기쓰레드.getName()));
-        Log.i("받기 쓰레드 Name", String.valueOf(받기쓰레드.getState()));
-        받기쓰레드.set핸들러(this.핸들러);
-        받기쓰레드.대화중 = true;
-        받기쓰레드.set대화상대(받는유저메일);
-        받기쓰레드.set메시지목록(메시지목록);
-        받기쓰레드.set위치(받는유저메일);
 
-
-        new Thread() {
-            @Override
-            public void run() {
-                프린트라이터.println(받는유저메일);
-                Log.i("[채팅방 첫입장]보내는 유저 메일 전달함", "");
-                프린트라이터.flush();
-                Log.i("[채팅방 첫입장]메시지 전달받고 노티함", "");
-            }
-        }.start();
+        내받스 = new 내용받기쓰레드();
+        내받스.start();
 
 
         뒤로가기.setOnClickListener(new View.OnClickListener() {
@@ -253,11 +191,6 @@ public class Activity_messege extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(getApplicationContext(),"온 리줌",Toast.LENGTH_LONG).show();
-    }
 
     public void gethistory(String 보내는유저, String 받는유저) {
         {
@@ -363,10 +296,53 @@ public class Activity_messege extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+    class 내용받기쓰레드 extends Thread {
 
+        @Override
+        public void run() {
+            super.run();
+            int 스레드아이디 = (int) this.getId();
+            String 스레드이름=this.getName();
+            try {
+                프린트라이터.println(받는유저메일);
+                Log.i("[내용받기쓰레드" + 스레드아이디 + "]프린트라이터에 받는유저 메일 넣음", 프린트라이터.toString());
+                Log.i("[내용받기쓰레드" + 스레드아이디 + "]쓰레드 고유값 확인", String.valueOf(this.getId()));
+                프린트라이터.flush();
+                Log.i("[내용받기쓰레드" + 스레드아이디 + "]받는유저 보냄", 받는유저메일);
+                while (!Thread.currentThread().isInterrupted()) {//현재 스헤드가 인터럽티드 되지 않았다면
+                    if (Thread.currentThread().isInterrupted()) {
+                        Log.i("[내용받기쓰레드" + 스레드아이디 + "] 스레드의 이름", Thread.currentThread().getName());
+                        break;
+
+                    }else {
+                        Log.i("[내용받기쓰레드" + 스레드아이디 + "] 서버로부터 값 받는 반복문 시작", 스레드이름);
+                        Log.i("[내용받기쓰레드" + 스레드아이디 + "] 서버로부터 값 받는 반복문 시작", 스레드이름);
+
+                        synchronized (버퍼리더) {
+                            받아온메시지 = 버퍼리더.readLine();
+                        }
+
+                        Log.i("[내용받기쓰레드" + 스레드아이디 + "]서버로부터 받아온 메시지 내용", 받아온메시지);
+                        Item_message 받아온메시지아이템 = new Item_message("receivedMessage", 현재시간, 받아온메시지, 받는유저메일, 유저메일);
+                        메시지목록.add(받아온메시지아이템);
+                        Log.i("[내용받기쓰레드" + 스레드아이디 + "]채팅 메시지아이템을  목록에 추가함", "추가함");
+                        if (받아온메시지 != null) {
+                            Message msg2 = 핸들러.obtainMessage();
+                            Log.i("[내용받기쓰레드" + 스레드아이디 + "]핸들러에 보낼 메시지 객체 생성함", "생성함");
+                            msg2.what = 1;
+                            Log.i("[내용받기쓰레드" + 스레드아이디 + "]핸들러에 보낼 메시지 객체 의 what값을 설정함", "설정함");
+                            핸들러.sendMessage(msg2);
+                            Log.i("[내용받기쓰레드" + 스레드아이디 + "]핸들러에 메시지 객체를 전달함", "전달함");
+                            //여기서 핸들러에 어떤 작업을 해주면 핸들러에서 리스트뷰에 노티를 해주자
+                        }
+
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
