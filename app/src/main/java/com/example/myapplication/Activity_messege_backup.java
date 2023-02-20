@@ -115,7 +115,7 @@ public class Activity_messege_backup extends AppCompatActivity {
         Log.i("받는 유저", 받는유저메일);
         채팅리스트뷰 = findViewById(R.id.리스트뷰_채팅내용);
         gethistory(유저메일, 받는유저메일);//이전 메시지 기록들
-        메시지어댑터 = new Adapter_message(메시지목록, this);//어댑터 선언
+//        메시지어댑터 = new Adapter_message(메시지목록, this,프로필이미지);//어댑터 선언
         채팅리스트뷰.setAdapter(메시지어댑터);
 
 

@@ -63,7 +63,7 @@ public class Activity_user_profile extends AppCompatActivity {
     Adapter_week 주표시어댑터;
     PreferenceHelper 프리퍼런스헬퍼;
     Item_user 유저;
-    String 유저이메일;
+
     String 합친날짜스트링;
     Date date;
     SimpleDateFormat 날짜형식 = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,9 +72,10 @@ public class Activity_user_profile extends AppCompatActivity {
     String 프로필주인유저이메일;
     String 로그인한유저이메일;
     Bitmap 비트맵이미지;
-    String ip=ipclass.ip;
+    String ip = ipclass.ip;
     boolean following;
     String 프로필이미지스트링;
+    URL url2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,8 @@ public class Activity_user_profile extends AppCompatActivity {
         프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
         date = new Date();
         프로필주인유저이메일 = intent.getStringExtra("user_email");
-        Log.i("프로필주인 이메일",프로필주인유저이메일);
-        로그인한유저이메일 = 프리퍼런스헬퍼.getUser_email();
+        Log.i("프로필주인 이메일", 프로필주인유저이메일);
+        로그인한유저이메일 = 프리퍼런스헬퍼.getUser_email();//이 에뮬레이터에 로그인 되어 있는 유저의 이메일
 
 
         팔로우버튼.setOnClickListener(new View.OnClickListener() {
@@ -115,10 +116,11 @@ public class Activity_user_profile extends AppCompatActivity {
         메시지보내기버튼.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Activity_messege.class);
-                intent.putExtra("받는유저이메일",프로필주인유저이메일);
-//                intent.putExtra("비트맵이미지",비트맵이미지);
-//                Log.i("유저 프로필에서 메시지페이지로 넘기는 비트맵이미지",비트맵이미지.toString());
+                Intent intent = new Intent(getApplicationContext(), Activity_messege.class);
+                intent.putExtra("받는유저메일", 프로필주인유저이메일);//로그인한 유저가 보내는 메시지를 받을 유저의 이메일
+
+                intent.putExtra("이미지url스트링", url2.toString());
+
                 startActivity(intent);
             }
         });
@@ -166,13 +168,13 @@ public class Activity_user_profile extends AppCompatActivity {
             }
         });
         기록표시리사이클러뷰.setAdapter(기록표시어댑터);
-        유저이메일 = intent.getStringExtra("user_email");
+
 
         String 년도월표시 = 월표시형식.format(date);
         Log.i("년도월표시", 년도월표시);
         년월표시텍스트뷰.setText(년도월표시);
         Log.i("년도월표시", 년월표시텍스트뷰.getText().toString());
-        get_userdata(유저이메일);
+        get_userdata(프로필주인유저이메일);
         get_record(date);
         getweek(date);
         get_followdata();
@@ -202,7 +204,7 @@ public class Activity_user_profile extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             Log.i("큐 생성", "큐 생성");
 
-            String url = "http://"+ip+"/get_userdata.php";
+            String url = "http://" + ip + "/get_userdata.php";
             Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -247,7 +249,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                                 //서버에 올려둔 이미지 URL
 
 //                                                URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
-                                                URL url2 = new URL("http://"+ip+"/images/" + 프로필이미지스트링);
+                                                url2 = new URL("http://" + ip + "/images/" + 프로필이미지스트링);
                                                 HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                 conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                 conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
@@ -272,7 +274,8 @@ public class Activity_user_profile extends AppCompatActivity {
                                         uThread.join();
                                         //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                                         //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-                                        프로필이미지뷰.setImageBitmap(비트맵이미지);
+                                        Glide.with(getApplicationContext()).load(url2).into(프로필이미지뷰);
+//                                        프로필이미지뷰.setImageBitmap(비트맵이미지);
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
@@ -316,16 +319,16 @@ public class Activity_user_profile extends AppCompatActivity {
         //어떤 형식으로 날짜를 받을지 정함.
         Calendar cal = Calendar.getInstance(Locale.KOREA);//캘린더 객체 생성
         cal.setTime(date);//매개변수로 받은 날짜를 캘린더의 시간으로 설정
-        Log.i("세팅된 시간", String.valueOf(date));
+//        Log.i("세팅된 시간", String.valueOf(date));
         cal.setFirstDayOfWeek(cal.MONDAY);
         ArrayList<Item_day> Day_item_array = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             cal.add(Calendar.DAY_OF_MONTH, (2 - cal.get(Calendar.DAY_OF_WEEK) + i));//해당 주차의 첫날 세팅
             String year = String.valueOf(cal.get(Calendar.YEAR));
-            Log.i("year: ", year);
+//            Log.i("year: ", year);
             int 월자보정 = cal.get(Calendar.MONTH) + 1;
             String month = String.valueOf(월자보정);
-            Log.i("month: ", month);
+//            Log.i("month: ", month);
             String day = dayonly.format(cal.getTime());
             String dayname = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.NARROW_FORMAT, Locale.KOREAN);//요일 표시 스트링
             Item_day dayitem = new Item_day(year, month, day, dayname, false);
@@ -340,7 +343,7 @@ public class Activity_user_profile extends AppCompatActivity {
             }
 
 
-            Log.i("날짜목록에 더함", 날짜목록.get(i).getDaynum());
+//            Log.i("날짜목록에 더함", 날짜목록.get(i).getDaynum());
             주표시어댑터.notifyItemChanged(i);
         }
         Log.i("세팅된 시간기준 배열", String.valueOf(Day_item_array));
@@ -354,14 +357,14 @@ public class Activity_user_profile extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             //요청큐 생성
 
-String url = "http://"+ip+"/get_record.php";
+            String url = "http://" + ip + "/get_record.php";
             //url 스트링값 생성
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onResponse(String response) {
-                            Log.i("응답", response);
+//                            Log.i("응답", response);
                             기록리스트.clear();
                             if (response.equals("기록없음")) {
                                 기록표시어댑터.notifyDataSetChanged();
@@ -369,43 +372,43 @@ String url = "http://"+ip+"/get_record.php";
                                 ArrayList<Item_record> 불러온기록어레이 = new ArrayList<>();
                                 try {
                                     JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
-                                    Log.i("제이슨객체", 제이슨객체.toString());
+
                                     String data = 제이슨객체.getString("data");
-                                    Log.i("제이슨 객체 내 data", data);
+
                                     JSONArray 제이슨어레이 = new JSONArray(data);
-                                    Log.i("제이슨어레이", 제이슨어레이.toString());
+
                                     int 어레이길이 = 제이슨어레이.length();
-                                    Log.i("제이슨어레이 길이", String.valueOf(어레이길이));
+
 
                                     for (int i = 0; i < 어레이길이; i++) {
                                         String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
-                                        Log.i("제이슨어레이 아이템", 제이슨아이템);
+
                                         JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
-                                        Log.i("제이슨 아이템" + (i + 1) + "번째: ", 제이슨아이템);
+
                                         String 유저메일 = 아이템제이슨.getString("user_email");
-                                        Log.i("유저메일", 유저메일);
+
                                         String 시작날짜 = 아이템제이슨.getString("start_date");
-                                        Log.i("시작날짜", 시작날짜);
+
                                         String 시작시간 = 아이템제이슨.getString("start_time");
-                                        Log.i("시작시간", 시작시간);
+
                                         String 종료날짜 = 아이템제이슨.getString("end_date");
-                                        Log.i("종료날짜", 종료날짜);
+
                                         String 종료시간 = 아이템제이슨.getString("end_time");
-                                        Log.i("종료시간", 종료시간);
+
                                         String 제목 = 아이템제이슨.getString("title");
-                                        Log.i("제목", 제목);
+
                                         String 내용 = 아이템제이슨.getString("contents");
-                                        Log.i("내용", 내용);
+
 
                                         String 키값 = 아이템제이슨.getString("record_seq");
-                                        Log.i("키값", 키값);
+
                                         Item_record 기록아이템 = new Item_record(유저메일, 시작날짜, 시작시간, 종료날짜, 종료시간, 제목, 내용, 키값);
                                         //기록 아이템은 만들어 줌
 
 
                                         if (기록리스트.size() < 어레이길이) {
                                             기록리스트.add(i, 기록아이템);
-                                            Log.i("기록 들어갔나?" + i, 기록리스트.toString());
+//                                            Log.i("기록 들어갔나?" + i, 기록리스트.toString());
 //                                            record_adapter.notifyItemInserted(i);
 
 
@@ -443,8 +446,8 @@ String url = "http://"+ip+"/get_record.php";
                     String 선택된날짜스트링 = DB저장날짜형식.format(받은date객체);
                     Log.i("db에 요청하는 날짜", 선택된날짜스트링);
                     Map params = new HashMap();
-                    params.put("user_email", 유저이메일);
-                    Log.i("기록요청할 유저의 이메일", 유저이메일);
+                    params.put("user_email", 프로필주인유저이메일);
+                    Log.i("기록요청할 유저의 이메일", 프로필주인유저이메일);
                     params.put("start_date", 선택된날짜스트링);
                     return params;
                 }
@@ -459,44 +462,44 @@ String url = "http://"+ip+"/get_record.php";
         int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
         //연결여부, 연결된 인터넷 경로를 받아온다(wifi, lte등)
         String 상태 = String.valueOf(status);
-        Log.i("인터넷상태", 상태);
+//        Log.i("인터넷상태", 상태);
         if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-            Log.i("조건문 진입", "진입");
+//            Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-            Log.i("큐 생성", "큐 생성");
-String url = "http://"+ip+"/get_followdata.php";
+//            Log.i("큐 생성", "큐 생성");
+            String url = "http://" + ip + "/get_followdata.php";
 
-            Log.i("url 생성", "유알엘생성");
+//            Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.i("get_followdata 응답", response);
+//                            Log.i("get_followdata 응답", response);
                             Handler handler = new Handler() {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     if (msg.what == 1) {
                                         팔로우버튼.setText("팔로잉");
 
-                                        Log.i("get_followdata", "팔로우버튼 텍스트 바꿈-팔로우");
+//                                        Log.i("get_followdata", "팔로우버튼 텍스트 바꿈-팔로우");
                                     } else {
                                         팔로우버튼.setText("팔로우");
-                                        Log.i("get_followdata", "팔로우버튼 텍스트 바꿈-팔로잉");
+//                                        Log.i("get_followdata", "팔로우버튼 텍스트 바꿈-팔로잉");
                                     }
                                 }
                             };//핸들러는 스레드에서 받은 메시지에 따라 뷰에 이미지를 그려줌
                             if (response.equals("following")) {//내가지금
                                 Message msg = handler.obtainMessage();//핸들러로 보낼 메시지 객체 생성
                                 msg.what = 1;
-                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
+//                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
                                 handler.sendMessage(msg);
                             } else if (response.equals("not_following")) {
                                 Message msg = handler.obtainMessage();//핸들러로 보낼 메시지 객체 생성
                                 msg.what = 2;
-                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
+//                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
                                 handler.sendMessage(msg);
                             } else {
-                                Log.i("get_followdata", "이상한값");
+//                                Log.i("get_followdata", "이상한값");
                             }
 
                         }
@@ -529,15 +532,15 @@ String url = "http://"+ip+"/get_followdata.php";
         int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
         //연결여부, 연결된 인터넷 경로를 받아온다(wifi, lte등)
         String 상태 = String.valueOf(status);
-        Log.i("인터넷상태", 상태);
+//        Log.i("인터넷상태", 상태);
         if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-            Log.i("조건문 진입", "진입");
+//            Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-            Log.i("큐 생성", "큐 생성");
+//            Log.i("큐 생성", "큐 생성");
 
 
-            String url = "http://"+ip+"/follow.php";
-            Log.i("url 생성", "유알엘생성");
+            String url = "http://" + ip + "/follow.php";
+//            Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
@@ -549,22 +552,22 @@ String url = "http://"+ip+"/get_followdata.php";
                                     if (msg.what == 1) {
                                         팔로우버튼.setText("팔로잉");
 
-                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로잉");
+//                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로잉");
                                     } else {
                                         팔로우버튼.setText("팔로우");
-                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로우");
+//                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로우");
                                     }
                                 }
                             };//핸들러는 스레드에서 받은 메시지에 따라 뷰에 이미지를 그려줌
                             if (response.equals("following")) {
                                 Message msg = handler.obtainMessage();//핸들러로 보낼 메시지 객체 생성
                                 msg.what = 1;//메시지의 what을 1로 설정
-                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
+//                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
                                 handler.sendMessage(msg);
                             } else if (response.equals("not_following")) {
                                 Message msg = handler.obtainMessage();//핸들러로 보낼 메시지 객체 생성
                                 msg.what = 2;//메시지의 what을 1로 설정
-                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
+//                                Log.i("핸들러로 보내는 메시지", String.valueOf(msg.what));
                                 handler.sendMessage(msg);
                             } else {
                                 Log.i("follow", "이상한값");
@@ -601,28 +604,28 @@ String url = "http://"+ip+"/get_followdata.php";
         String 상태 = String.valueOf(status);
         Log.i("인터넷상태", 상태);
         if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-            Log.i("조건문 진입", "진입");
+//            Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-            Log.i("큐 생성", "큐 생성");
+//            Log.i("큐 생성", "큐 생성");
 
-            String url = "http://"+ip+"/unfollow.php";
-            Log.i("url 생성", "유알엘생성");
+            String url = "http://" + ip + "/unfollow.php";
+//            Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.i("응답 내용", response);
+//                            Log.i("응답 내용", response);
 
                             Handler handler = new Handler() {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     if (msg.what == 1) {
                                         팔로우버튼.setText("팔로우");
-                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로우");
+//                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로우");
                                     } else {
                                         팔로우버튼.setText("팔로잉");
 
-                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로잉");
+//                                        Log.i("팔로우버튼 텍스트 바꿈", "팔로잉");
                                     }
                                 }
                             };//핸들러는 스레드에서 받은 메시지에 따라 뷰에 이미지를 그려줌
@@ -635,7 +638,7 @@ String url = "http://"+ip+"/get_followdata.php";
                                 msg.what = 2;//메시지의 what을 1로 설정
                                 handler.sendMessage(msg);
                             } else {
-                                Log.i("unfollow", "이상한값");
+//                                Log.i("unfollow", "이상한값");
                             }
 
                         }

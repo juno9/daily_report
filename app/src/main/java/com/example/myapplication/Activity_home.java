@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -57,21 +58,19 @@ public class Activity_home extends AppCompatActivity {
         bundle.putString("user_email", email);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, fragment_home).commitAllowingStateLoss();
-        Log.i(TAG, "홈화면 바로 뿌림");
-        Log.i("쉐어드에 있는 로그인여부", String.valueOf(프리퍼런스헬퍼.getLogin()));
-        Log.i("쉐어드에 있는 이메일",프리퍼런스헬퍼.getUser_email());
+
         fragment_home.setArguments(bundle);
         바텀내비게이션 = findViewById(R.id.bottomNavigationView);
-        Log.i("홈 액티비티", "바텀네비게이션 초기화");
+
         바텀내비게이션.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem 내비아이템) {
-                Log.i(TAG, "바텀 네비게이션 클릭");
+
 
 
                 switch (내비아이템.getItemId()) {
                     case R.id.home:
-                        Log.i(TAG, "home 들어옴");
+
                         Bundle bundle=new Bundle();
                         bundle.putString("user_email", email);
                         fragment_setting.setArguments(bundle);
@@ -79,11 +78,11 @@ public class Activity_home extends AppCompatActivity {
                         return true;
 
                     case R.id.friends:
-                        Log.i(TAG, "friends 들어옴");
+
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, fragment_group).commitAllowingStateLoss();
                         return true;
                     case R.id.setting:
-                        Log.i(TAG, "setting 들어옴");
+
 
                         Bundle bundle2 = new Bundle();
                         bundle2.putString("user_email", email);
@@ -126,41 +125,7 @@ public class Activity_home extends AppCompatActivity {
 
 
 
-    // 인텐트 액티비티 전환함수
-    public void startActivityC(Class c) {
-        Intent intent = new Intent(getApplicationContext(), c);
-        startActivity(intent);
-        // 화면전환 애니메이션 없애기
-        overridePendingTransition(0, 0);
-    }
 
-    // 인텐트 화면전환 하는 함수
-    // FLAG_ACTIVITY_CLEAR_TOP = 불러올 액티비티 위에 쌓인 액티비티 지운다.
-    public void startActivityflag(Class c) {
-        Intent intent = new Intent(getApplicationContext(), c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        // 화면전환 애니메이션 없애기
-        overridePendingTransition(0, 0);
-    }
-
-    // 문자열 인텐트 전달 함수
-    public void startActivityString(Class c, String name, String sendString) {
-        Intent intent = new Intent(getApplicationContext(), c);
-        intent.putExtra(name, sendString);
-        startActivity(intent);
-        // 화면전환 애니메이션 없애기
-        overridePendingTransition(0, 0);
-    }
-
-    // 백스택 지우고 새로 만들어 전달
-    public void startActivityNewTask(Class c) {
-        Intent intent = new Intent(getApplicationContext(), c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        // 화면전환 애니메이션 없애기
-        overridePendingTransition(0, 0);
-    }
 
 
 }

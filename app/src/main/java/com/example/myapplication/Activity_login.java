@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -39,12 +41,13 @@ public class Activity_login extends AppCompatActivity {
     String ip = ipclass.ip;
     EditText 이메일입력;
     EditText 비밀번호입력;
+    PreferenceHelper 프리퍼런스헬퍼;
     public static BufferedReader 버퍼리더;
     public static PrintWriter 프린트라이터;
     String TAG = "로그인액티비티";
     public static Socket 소켓;
     String 주소 = ipclass.ip;
-    int 포트 = 10005;
+    private Intent serviceIntent;
     public static String 위치;
     public static Thread_receiver 내용받는쓰레드;
 
@@ -54,19 +57,23 @@ public class Activity_login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         이메일입력 = findViewById(R.id.입력란_이메일);
         비밀번호입력 = findViewById(R.id.입력란_비밀번호);
-        PreferenceHelper 프리퍼런스헬퍼 = new PreferenceHelper(this);
+        프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
+        Log.i("자동로그인 여부", String.valueOf(프리퍼런스헬퍼.getLogin()));
 
 
-        Date today = new Date();
-        Log.i(TAG, "오늘날짜:" + String.valueOf(today));
-        getweek(today);
-        Log.i(TAG, "1주일배열:" + getweek(today));
-        Calendar cal = Calendar.getInstance();
-        cal.set(2022, 0, 0);//일, 월은 숫자를 1씩 빼야 된다
-        Date specific = new Date(cal.getTimeInMillis());
-        Log.i(TAG, "특정일자:" + String.valueOf(specific));
-        getweek(specific);
-        Log.i(TAG, "특정일자 속한 주 배열:" + getweek(specific));
+//        프리퍼런스헬퍼.clear();
+//        프리퍼런스헬퍼.setLogin(false);
+//        if (프리퍼런스헬퍼.getLogin() == true) {
+//            String 유저메일 = 프리퍼런스헬퍼.getUser_email();
+//            Intent intent = new Intent(getApplicationContext(), Service_chat.class);
+//            intent.putExtra("유저메일", 유저메일);
+//            startService(intent);
+//            startActivityC(Activity_home.class);
+//            finish();
+//            Toast.makeText(getApplicationContext(), 유저메일 + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+//
+//        } else {
+
 
 
         TextView 비밀번호찾기 = findViewById(R.id.비밀번호찾기);
@@ -116,34 +123,26 @@ public class Activity_login extends AppCompatActivity {
                                             if (response.equals("로그인 실패")) {//형 변환 이슈
                                                 Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                                             } else {
-                                                new Thread() {
-                                                    public void run() {
-                                                        try {
-                                                            InetAddress serverAddr = InetAddress.getByName(주소);
-                                                            소켓 = new Socket(serverAddr, 포트);
-                                                            Log.i("소켓만들어줌", "연결됨");
-                                                            InputStreamReader 인풋스트림 = new InputStreamReader(소켓.getInputStream());
-                                                            OutputStreamWriter 아웃풋스트림라이터 = new OutputStreamWriter(소켓.getOutputStream());
-                                                            프린트라이터 = new PrintWriter(아웃풋스트림라이터);
-                                                            버퍼리더 = new BufferedReader(인풋스트림);
-                                                            Log.i("프린트라이터 버퍼리더 생성", "생성함");
-                                                            프린트라이터.println(이메일입력.getText().toString());
-                                                            프린트라이터.flush();//소켓 연결과 함께 유저의 이메일만 보내줌
-                                                            Log.i("로그인한 유저 정보 보내줌", "보내줌");
-                                                            내용받는쓰레드=new Thread_receiver(이메일입력.getText().toString(),버퍼리더,프린트라이터);
-                                                            내용받는쓰레드.start();
-                                                            Log.i("내용받는 쓰레드 시작함", "시작함");
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                }.start();
+
                                                 프리퍼런스헬퍼.setLogin(true);
                                                 프리퍼런스헬퍼.setUser_email(response);
+                                                Log.i("프리퍼런스 로그인 여부", String.valueOf(프리퍼런스헬퍼.getLogin()));
+                                                Log.i("프리퍼런스 설정된 이메일", 프리퍼런스헬퍼.getUser_email());
                                                 Log.i("프리퍼런스 들어간 값 확인", 프리퍼런스헬퍼.getUser_email());
-                                                startActivityC(Activity_home.class);
-                                                finish();
-                                                Toast.makeText(getApplicationContext(), response + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getApplicationContext(), Service_chat.class);
+                                                intent.putExtra("유저메일", 이메일입력.getText().toString());
+                                                if (isServiceRunning(getApplicationContext())) {
+
+                                                    startActivityC(Activity_home.class);
+                                                    finish();
+                                                    Toast.makeText(getApplicationContext(), response + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+
+                                                } else {
+                                                    startService(intent);
+                                                    startActivityC(Activity_home.class);
+                                                    finish();
+                                                    Toast.makeText(getApplicationContext(), response + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         }
                                     }, new Response.ErrorListener() {
@@ -179,8 +178,30 @@ public class Activity_login extends AppCompatActivity {
             }//온클릭 메소드
         });
 
+        if (프리퍼런스헬퍼.getLogin() == true) {
+            Log.i("[Activity_login]자동로그인 참인 경우","자동로그인");
+            String 유저메일 = 프리퍼런스헬퍼.getUser_email();
+            Intent intent = new Intent(getApplicationContext(), Service_chat.class);
+            intent.putExtra("유저메일", 유저메일);
 
+            if (isServiceRunning(getApplicationContext())) {
+                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있는 경우","서비스 시작하지 않음");
+                startActivityC(Activity_home.class);
+                finish();
+                Toast.makeText(getApplicationContext(), 유저메일 + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있지 않은 경우","서비스 시작함");
+                startService(intent);
+                startActivityC(Activity_home.class);
+                finish();
+                Toast.makeText(getApplicationContext(), 유저메일 + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
+
+//    }
 
     // 액티비티 전환 함수
 
@@ -238,54 +259,15 @@ public class Activity_login extends AppCompatActivity {
         return 일주일날짜;
     }
 
-    class 내용받기쓰레드 extends Thread {
-        String 받는유저메일;
+    public static boolean isServiceRunning(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
-//        @Override
-//        public void run() {
-//            super.run();
-//            int 스레드아이디 = (int) this.getId();
-//            String 스레드이름 = this.getName();
-//            try {
-//                프린트라이터.println(받는유저메일);
-//                Log.i("[내용받기쓰레드" + 스레드아이디 + "]프린트라이터에 받는유저 메일 넣음", 프린트라이터.toString());
-//                Log.i("[내용받기쓰레드" + 스레드아이디 + "]쓰레드 고유값 확인", String.valueOf(this.getId()));
-//                프린트라이터.flush();
-//                Log.i("[내용받기쓰레드" + 스레드아이디 + "]받는유저 보냄", 받는유저메일);
-//                while (!Thread.currentThread().isInterrupted()) {//현재 스헤드가 인터럽티드 되지 않았다면
-//                    if (Thread.currentThread().isInterrupted()) {
-//                        Log.i("[내용받기쓰레드" + 스레드아이디 + "] 스레드의 이름", Thread.currentThread().getName());
-//                        break;
-//
-//                    } else {
-//                        Log.i("[내용받기쓰레드" + 스레드아이디 + "] 서버로부터 값 받는 반복문 시작", 스레드이름);
-//                        Log.i("[내용받기쓰레드" + 스레드아이디 + "] 서버로부터 값 받는 반복문 시작", 스레드이름);
-//
-//                        synchronized (버퍼리더) {
-//                            받아온메시지 = 버퍼리더.readLine();
-//                        }
-//
-//                        Log.i("[내용받기쓰레드" + 스레드아이디 + "]서버로부터 받아온 메시지 내용", 받아온메시지);
-//                        Item_message 받아온메시지아이템 = new Item_message("receivedMessage", 현재시간, 받아온메시지, 받는유저메일, 유저메일);
-//                        메시지목록.add(받아온메시지아이템);
-//                        Log.i("[내용받기쓰레드" + 스레드아이디 + "]채팅 메시지아이템을  목록에 추가함", "추가함");
-//                        if (받아온메시지 != null) {
-//                            Message msg2 = 핸들러.obtainMessage();
-//                            Log.i("[내용받기쓰레드" + 스레드아이디 + "]핸들러에 보낼 메시지 객체 생성함", "생성함");
-//                            msg2.what = 1;
-//                            Log.i("[내용받기쓰레드" + 스레드아이디 + "]핸들러에 보낼 메시지 객체 의 what값을 설정함", "설정함");
-//                            핸들러.sendMessage(msg2);
-//                            Log.i("[내용받기쓰레드" + 스레드아이디 + "]핸들러에 메시지 객체를 전달함", "전달함");
-//                            //여기서 핸들러에 어떤 작업을 해주면 핸들러에서 리스트뷰에 노티를 해주자
-//                        }
-//
-//                    }
-//                }
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        for (ActivityManager.RunningServiceInfo rsi : am.getRunningServices(Integer.MAX_VALUE)) {
+            if (Service_chat.class.getName().equals(rsi.service.getClassName())) //[서비스이름]에 본인 것을 넣는다.
+                return true;
+        }
+
+        return false;
     }
 }
 

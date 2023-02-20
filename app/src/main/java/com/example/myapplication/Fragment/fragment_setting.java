@@ -27,7 +27,10 @@ import com.example.myapplication.Activity_profileupdate;
 import com.example.myapplication.Activity_pwchange;
 import com.example.myapplication.R;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class fragment_setting extends Fragment {
 
@@ -40,6 +43,9 @@ public class fragment_setting extends Fragment {
     TextView 로그아웃;
     String user_email;
     PreferenceHelper 프리퍼런스헬퍼;
+    Socket 소켓;
+    BufferedReader 버퍼리더;
+    PrintWriter 프린트라이터;
 
     @Nullable
     @Override
@@ -80,21 +86,7 @@ public class fragment_setting extends Fragment {
             public void onClick(View view) {
                 프리퍼런스헬퍼.setUser_email(null);
                 프리퍼런스헬퍼.setLogin(false);
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            Activity_login.프린트라이터.println("/exit");
-                            Activity_login.프린트라이터.flush();
-                            Activity_login.소켓.close();
-                            Activity_login.버퍼리더.close();
-                            Activity_login.프린트라이터.close();
-                        } catch (
-                                IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+
                 startActivityC(Activity_login.class);
 
             }

@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -36,8 +37,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
@@ -54,7 +57,8 @@ public class Activity_messege extends AppCompatActivity {
     Button 보내기버튼;
     TextView 상대유저이름;
     Socket 소켓;
-    String 주소 = ipclass.ip;
+    String ip = ipclass.ip;
+    int port = ipclass.port;
     BufferedReader 버퍼리더;
     PrintWriter 프린트라이터;
     String 받아온메시지;
@@ -68,9 +72,9 @@ public class Activity_messege extends AppCompatActivity {
     Adapter_message 메시지어댑터;
     Bitmap 프로필이미지;
     String 현재시간;
-    URL url2;
+    String url2;
     ImageView 뒤로가기;
-
+    Bundle bundle;
     Thread_receiver 받기쓰레드;
     ImageView 프로필이미지뷰;
 //    내용받기쓰레드 내받스;
@@ -79,64 +83,68 @@ public class Activity_messege extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         setContentView(R.layout.activity_message);
-        Log.i("생명주기", "온 퍼즈");
-        Toast.makeText(getApplicationContext(),"온 퍼즈",Toast.LENGTH_LONG).show();
+        Log.i("[Activity_messege]", "온 퍼즈");
 
-        받기쓰레드.set핸들러(this.핸들러);
-        받기쓰레드.대화중 = false;
-        받기쓰레드.set대화상대("");
-        받기쓰레드.set메시지목록(null);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("[Activity_messege]", "온 스탑");
         new Thread() {
             @Override
             public void run() {
                 try {
                     프린트라이터.println("/quit");
                     프린트라이터.flush();
-//                    내받스.interrupt();
+                    받기쓰레드.set위치("");
+                    받기쓰레드 = null;
+//                    Intent intent = new Intent(getApplicationContext(), Activity_home.class);
+//                    intent.putExtra("user_email", 받는유저메일);
+//                    startActivity(intent);
 
-//                    Log.i("[온퍼스]", "받는 스레드 id" + 내받스.getId());
-//                    Log.i("[온퍼스]", "받는 스레드 현재상태" + 내받스.getState());
-//                    Log.i("[온퍼스]", "받는 스레드 이름" + 내받스.getName());
-//                    Log.i("[온퍼스]", "받는 스레드 살아있는지" + 내받스.isAlive());
-//                    Log.i("[온퍼스]", "받는 스레드 멈춤" + 내받스.isInterrupted());
                 } catch (Exception e) {
 
                 }
             }
         }.start();
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(getApplicationContext(),"온 스탑",Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(getApplicationContext(),"온 디스트로이",Toast.LENGTH_LONG).show();
+        Log.i("[Activity_messege]", "온 디스트로이");
+
+
     }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
+
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(getApplicationContext(),"온 리스타트",Toast.LENGTH_LONG).show();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(getApplicationContext(),"온 스타트",Toast.LENGTH_LONG).show();
-    }
 
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        Toast.makeText(getApplicationContext(),"온 크리에이트",Toast.LENGTH_LONG).show();
+
+        bundle = savedInstanceState;
         Date now = new Date();
         SimpleDateFormat 시간변환 = new SimpleDateFormat("hh:mm:ss");
         현재시간 = 시간변환.format(now);
@@ -146,22 +154,32 @@ public class Activity_messege extends AppCompatActivity {
         뒤로가기 = findViewById(R.id.이미지뷰_뒤로가기2);
         프로필이미지뷰 = findViewById(R.id.이미지뷰_프로필이미지);
         Intent intent = getIntent();
+        Log.i("[Activity_messege]", "");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        Log.i("[Activity_messege]", "");
         프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
-        유저메일 = 프리퍼런스헬퍼.getUser_email();
-        받는유저메일 = intent.getStringExtra("받는유저이메일");
-        프로필이미지 = (Bitmap) intent.getParcelableExtra("비트맵이미지");
-        프로필이미지뷰.setImageBitmap(프로필이미지);
+        Log.i("[Activity_messege]", "");
+        유저메일 = 프리퍼런스헬퍼.getUser_email();//로그인되어 있는 유저의 이메일 보내는 유저 이메일
+        Log.i("[Activity_messege]", "");
+
+        받는유저메일 = intent.getStringExtra("받는유저메일");//메시지를 받는 유저의 이메일
+        Log.i("[Activity_messege]", "");
+        url2 = (String) intent.getStringExtra("이미지url스트링");
+        Log.i("[Activity_messege]", "");
         상대유저이름.setText(받는유저메일);
-        소켓 = Activity_login.소켓;
-        프린트라이터 = Activity_login.프린트라이터;
-        버퍼리더 = Activity_login.버퍼리더;
-        Log.i("보내는 유저", 유저메일);
+        Log.i("[Activity_messege]", "");
+
+
+        Log.i("보내는 유저", 유저메일);//이 채팅방에서 보내는 유저는 로그인 되어있는 유저이다.
         Log.i("받는 유저", 받는유저메일);
         채팅리스트뷰 = findViewById(R.id.리스트뷰_채팅내용);
+        Log.i("[Activity_messege]", "");
         gethistory(유저메일, 받는유저메일);//이전 메시지 기록들
-        메시지어댑터 = new Adapter_message(메시지목록, this);//어댑터 선언
+        Log.i("[Activity_messege]", "");
+        메시지어댑터 = new Adapter_message(메시지목록, this, url2);//어댑터 선언
+        Log.i("[Activity_messege]", "");
         채팅리스트뷰.setAdapter(메시지어댑터);
+        Log.i("[Activity_messege]", "");
 
 
         핸들러 = new Handler() {
@@ -170,6 +188,7 @@ public class Activity_messege extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
                     메시지어댑터.notifyDataSetChanged();
+                    Log.i("[Activity_messege]", "");
                     채팅리스트뷰.setSelection(메시지목록.size() - 1);
                     Log.i("[핸들러]메시지 전달받고 노티함", "노티함");
                 }
@@ -178,15 +197,45 @@ public class Activity_messege extends AppCompatActivity {
 
         };
 
-        받기쓰레드 = (Thread_receiver) Activity_login.내용받는쓰레드;
-        Log.i("받기 쓰레드 id", String.valueOf(받기쓰레드.getId()));
-        Log.i("받기 쓰레드 Name", String.valueOf(받기쓰레드.getName()));
-        Log.i("받기 쓰레드 Name", String.valueOf(받기쓰레드.getState()));
+        받기쓰레드 = (Thread_receiver) Service_chat.받기쓰레드;
+        if (받기쓰레드 == null) {
+            try {
+                InetAddress serverAddr = InetAddress.getByName(ip);
+                소켓 = new Socket(serverAddr, port);
+
+                InputStreamReader 인풋스트림 = new InputStreamReader(소켓.getInputStream());
+                OutputStreamWriter 아웃풋스트림라이터 = new OutputStreamWriter(소켓.getOutputStream());
+                프린트라이터 = new PrintWriter(아웃풋스트림라이터);
+                버퍼리더 = new BufferedReader(인풋스트림);
+
+                프린트라이터.println(유저메일);
+                프린트라이터.flush();//소켓 연결과 함께 유저의 이메일만 보내줌
+                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있는 경우", "서비스 시작하지 않음");
+                Thread_receiver 받기쓰레드2 = new Thread_receiver(this, 유저메일, 버퍼리더, 프린트라이터);
+                Service_chat.set받기쓰레드(받기쓰레드2);
+                받기쓰레드 = 받기쓰레드2;
+            } catch (Exception e) {
+
+            }
+            받기쓰레드.start();
+
+        }
+
+
+        프린트라이터 = Service_chat.프린트라이터;
+        Log.i("[Activity_messege]", "");
+        버퍼리더 = Service_chat.버퍼리더;
+        Log.i("[Activity_messege]", "");
         받기쓰레드.set핸들러(this.핸들러);
+        Log.i("[Activity_messege]", "");
         받기쓰레드.대화중 = true;
+        Log.i("[Activity_messege]", "");
         받기쓰레드.set대화상대(받는유저메일);
+        Log.i("[Activity_messege]", "");
         받기쓰레드.set메시지목록(메시지목록);
+        Log.i("[Activity_messege]", "");
         받기쓰레드.set위치(받는유저메일);
+        Log.i("[Activity_messege]", "");
 
 
         new Thread() {
@@ -203,17 +252,7 @@ public class Activity_messege extends AppCompatActivity {
         뒤로가기.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            프린트라이터.println("/quit");
-                            프린트라이터.flush();
-                        } catch (Exception e) {
 
-                        }
-                    }
-                }.start();
                 finish();
             }
         });
@@ -228,7 +267,6 @@ public class Activity_messege extends AppCompatActivity {
                     public void run() {
                         super.run();
                         try {
-
                             Item_message 보낼메시지아이템 = new Item_message("sentMessage", 현재시간, 보낼메시지, 유저메일, 받는유저메일);
                             Log.i("[보내기]보낼 메시지 아이템 객체 생성: ", "");
                             메시지목록.add(보낼메시지아이템);
@@ -256,7 +294,7 @@ public class Activity_messege extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(getApplicationContext(),"온 리줌",Toast.LENGTH_LONG).show();
+
     }
 
     public void gethistory(String 보내는유저, String 받는유저) {
@@ -264,42 +302,42 @@ public class Activity_messege extends AppCompatActivity {
             int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
             //연결여부, 연결된 인터넷 경로를 받아온다(wifi, lte등)
             String 상태 = String.valueOf(status);
-            Log.i("[gethistory]인터넷상태", 상태);
+
             if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-                Log.i("[gethistory]조건문 진입", "진입");
+
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                Log.i("[gethistory]큐 생성", "큐 생성");
-                String url = "http://" + 주소 + "/get_message.php";
-                Log.i("[gethistory]url 생성", "유알엘생성");
+
+                String url = "http://" + ip + "/get_message.php";
+
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
-                                Log.i("응답내용", response);
+
                                 try {
                                     JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
-                                    Log.i("[gethistory]제이슨객체", 제이슨객체.toString());
+
                                     String data = 제이슨객체.getString("data");
-                                    Log.i("[gethistory]제이슨 객체 내 data", data);
+
                                     JSONArray 제이슨어레이 = new JSONArray(data);
-                                    Log.i("[gethistory]제이슨어레이", 제이슨어레이.toString());
+
                                     int 어레이길이 = 제이슨어레이.length();
-                                    Log.i("[gethistory]제이슨어레이 길이", String.valueOf(어레이길이));
+
 
                                     for (int i = 0; i < 어레이길이; i++) {//반복문 돌면서 어레이 안의 채팅 내용들을 뺴내자
                                         String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
-                                        Log.i("[gethistory]제이슨어레이 아이템", 제이슨아이템);
+
                                         JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
-                                        Log.i("[gethistory]제이슨 아이템" + (i + 1) + "번째: ", 제이슨아이템);
+
                                         String 보낸유저메일 = 아이템제이슨.getString("sender_email");
-                                        Log.i("[gethistory]보낸유저메일", 보낸유저메일);
+
                                         String 받은유저메일 = 아이템제이슨.getString("receiver_email");
-                                        Log.i("[gethistory]받은유저메일", 받은유저메일);
+
                                         String 시간 = 아이템제이슨.getString("time");
-                                        Log.i("[gethistory]시간", 시간);
+
                                         String 내용 = 아이템제이슨.getString("contents");
-                                        Log.i("[gethistory]내용", 내용);
+
                                         //기록 아이템은 만들어 줌
 
                                         if (보낸유저메일.equals(유저메일)) {
@@ -346,28 +384,7 @@ public class Activity_messege extends AppCompatActivity {
         }
     }//이전 채팅 목록 받아오는 코드
 
-    class 메시지업데이트 implements Runnable {
-        private String 받아온메시지;
 
-        public 메시지업데이트(String str) {
-            this.받아온메시지 = str;
-        }
-
-        @Override
-        public void run() {
-            Item_message 메시지 = new Item_message("reveivedMessage", 현재시간, 받아온메시지, 받는유저메일, 유저메일);
-            메시지목록.add(메시지);
-//
-            메시지어댑터.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
 }
 
 

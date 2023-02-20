@@ -43,7 +43,7 @@ public class Adapter_record extends RecyclerView.Adapter<Adapter_record.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         String 제목 = 기록리스트.get(position).get제목();
-        Log.i("빈제목 확인용", 제목);
+
         if (제목.equals("")) {
             holder.title.setText("빈 제목");
             holder.title.setTextColor(Color.GRAY);
@@ -57,7 +57,7 @@ public class Adapter_record extends RecyclerView.Adapter<Adapter_record.ViewHold
         try {
             String 시작날짜시간 = 기록리스트.get(position).get시작날짜() + " " + 기록리스트.get(position).get시작시간();
             String 종료날짜시간 = 기록리스트.get(position).get시작날짜() + " " + 기록리스트.get(position).get종료시간();
-            Log.i("시작날짜시간", 시작날짜시간);
+
             Date 시작날짜시간date = 시간형식.parse(시작날짜시간); // 문자열을 파싱해 Date형으로 저장한다
             Date 종료날짜시간date = 시간형식.parse(종료날짜시간);
             SimpleDateFormat 시간 = new SimpleDateFormat("aa hh:mm");
@@ -67,9 +67,9 @@ public class Adapter_record extends RecyclerView.Adapter<Adapter_record.ViewHold
 
             holder.time.setText(시작시간만따로);
             holder.starttime.setText(시작시간만따로);
-            Log.i("시작시간 셋텍스트", 시작시간만따로);
+
             holder.endtime.setText(종료시간만따로);
-            Log.i("종료시간 셋텍스트", 종료시간만따로);
+
 
         } catch (ParseException e) {
             e.printStackTrace();

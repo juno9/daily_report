@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.example.myapplication.Activity_recordinput;
 import com.example.myapplication.Activity_recordupdate;
 import com.example.myapplication.Adapter_record;
@@ -206,14 +207,14 @@ public class fragment_home extends Fragment {
                         cal.add(Calendar.DAY_OF_MONTH, (2 - cal.get(Calendar.DAY_OF_WEEK) + i));//해당 주차의 첫날 세팅
                         Log.i("문제의반복문: ", i + "회차");
                         String year = String.valueOf(년도);
-                        Log.i("year: ", year);
+//                        Log.i("year: ", year);
                         String month = String.valueOf(월자);
-                        Log.i("month: ", month);
+//                        Log.i("month: ", month);
                         String day = dayonly.format(cal.getTime());
 
-                        Log.i("dayonly: ", day);
+//                        Log.i("dayonly: ", day);
                         String dayname = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.NARROW_FORMAT, Locale.KOREAN);//요일 표시 스트링
-                        Log.i("year: ", dayname);
+//                        Log.i("year: ", dayname);
                         if (day.equals(픽한날짜의일자)) {//선택해서 받은 날짜랑 그냥 넣어주는 날짜랑 어떻게 판별하지
                             Item_day dayitem = new Item_day(year, month, day, dayname, true);
                             날짜목록.set(i, dayitem);
@@ -266,12 +267,12 @@ public class fragment_home extends Fragment {
                 String 내용 = 기록리스트.get(pos).get내용();
                 String 제목 = 기록리스트.get(pos).get제목();
                 String 키값 = 기록리스트.get(pos).get키값();
-                Log.i("시작시간 ", 시작시간);
-                Log.i("시작날짜 ", 시작날짜);
-                Log.i("종료시간", 종료시간);
-                Log.i("종료날짜", 종료날짜);
-                Log.i("내용", 내용);
-                Log.i("제목", 제목);
+//                Log.i("시작시간 ", 시작시간);
+//                Log.i("시작날짜 ", 시작날짜);
+//                Log.i("종료시간", 종료시간);
+//                Log.i("종료날짜", 종료날짜);
+//                Log.i("내용", 내용);
+//                Log.i("제목", 제목);
                 //시작시간,시작날짜,종료시간,종료날짜, 내용, 제목,
                 Intent intent = new Intent(getActivity(), Activity_recordupdate.class);
                 intent.putExtra("시작시간", 시작시간);
@@ -308,44 +309,44 @@ public class fragment_home extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.i("생명주기", "onPause");
+        Log.i("[fragment_home]생명주기", "onPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("생명주기", "onDestroy");
+        Log.i("[fragment_home]생명주기", "onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.i("생명주기", "onDetach");
+        Log.i("[fragment_home]생명주기", "onDetach");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("생명주기", "onViewCreated");
+        Log.i("[fragment_home]생명주기", "onViewCreated");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.i("생명주기", "onStop");
+        Log.i("[fragment_home]생명주기", "onStop");
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
-        Log.i("생명주기", "onViewStateRestored");
+        Log.i("[fragment_home]생명주기", "onViewStateRestored");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.i("생명주기", "onDestroyView");
+        Log.i("[fragment_home]생명주기", "onDestroyView");
 
     }
 
@@ -354,7 +355,7 @@ public class fragment_home extends Fragment {
         super.onResume();
 
         get_record(date);
-        Log.i("생명주기", "onResume");
+        Log.i("[fragment_home]생명주기", "onResume");
 
     }
 
@@ -365,16 +366,16 @@ public class fragment_home extends Fragment {
         //어떤 형식으로 날짜를 받을지 정함.
         Calendar cal = Calendar.getInstance(Locale.KOREA);//캘린더 객체 생성
         cal.setTime(date);//매개변수로 받은 날짜를 캘린더의 시간으로 설정
-        Log.i("세팅된 시간", String.valueOf(date));
+//        Log.i("세팅된 시간", String.valueOf(date));
         cal.setFirstDayOfWeek(cal.MONDAY);
         ArrayList<Item_day> Day_item_array = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             cal.add(Calendar.DAY_OF_MONTH, (2 - cal.get(Calendar.DAY_OF_WEEK) + i));//해당 주차의 첫날 세팅
             String year = String.valueOf(cal.get(Calendar.YEAR));
-            Log.i("year: ", year);
+//            Log.i("year: ", year);
             int 월자보정 = cal.get(Calendar.MONTH) + 1;
             String month = String.valueOf(월자보정);
-            Log.i("month: ", month);
+//            Log.i("month: ", month);
             String day = dayonly.format(cal.getTime());
             String dayname = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.NARROW_FORMAT, Locale.KOREAN);//요일 표시 스트링
             Item_day dayitem = new Item_day(year, month, day, dayname, false);
@@ -389,7 +390,7 @@ public class fragment_home extends Fragment {
             }
 
 
-            Log.i("날짜목록에 더함", 날짜목록.get(i).getDaynum());
+
             adapter_week.notifyItemChanged(i);
         }
         Log.i("세팅된 시간기준 배열", String.valueOf(Day_item_array));
@@ -411,7 +412,7 @@ public class fragment_home extends Fragment {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onResponse(String response) {
-                            Log.i("응답", response);
+
                             기록리스트.clear();
                             _adapterRecord.notifyDataSetChanged();
                             if (response.equals("기록없음")) {
@@ -420,43 +421,43 @@ public class fragment_home extends Fragment {
                                 ArrayList<Item_record> 불러온기록어레이 = new ArrayList<>();
                                 try {
                                     JSONObject 제이슨객체 = new JSONObject(response);//data:{"기록1,기록2,기록3"}
-                                    Log.i("제이슨객체", 제이슨객체.toString());
+
                                     String data = 제이슨객체.getString("data");
-                                    Log.i("제이슨 객체 내 data", data);
+
                                     JSONArray 제이슨어레이 = new JSONArray(data);
-                                    Log.i("제이슨어레이", 제이슨어레이.toString());
+
                                     int 어레이길이 = 제이슨어레이.length();
-                                    Log.i("제이슨어레이 길이", String.valueOf(어레이길이));
+
 
                                     for (int i = 0; i < 어레이길이; i++) {
                                         String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
-                                        Log.i("제이슨어레이 아이템", 제이슨아이템);
+
                                         JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
-                                        Log.i("제이슨 아이템" + (i + 1) + "번째: ", 제이슨아이템);
+
                                         String 유저메일 = 아이템제이슨.getString("user_email");
-                                        Log.i("유저메일", 유저메일);
+
                                         String 시작날짜 = 아이템제이슨.getString("start_date");
-                                        Log.i("시작날짜", 시작날짜);
+
                                         String 시작시간 = 아이템제이슨.getString("start_time");
-                                        Log.i("시작시간", 시작시간);
+
                                         String 종료날짜 = 아이템제이슨.getString("end_date");
-                                        Log.i("종료날짜", 종료날짜);
+
                                         String 종료시간 = 아이템제이슨.getString("end_time");
-                                        Log.i("종료시간", 종료시간);
+
                                         String 제목 = 아이템제이슨.getString("title");
-                                        Log.i("제목", 제목);
+
                                         String 내용 = 아이템제이슨.getString("contents");
-                                        Log.i("내용", 내용);
+
 
                                         String 키값 = 아이템제이슨.getString("record_seq");
-                                        Log.i("키값", 키값);
+
                                         Item_record 기록아이템 = new Item_record(유저메일, 시작날짜, 시작시간, 종료날짜, 종료시간, 제목, 내용, 키값);
                                         //기록 아이템은 만들어 줌
 
 
                                         if (기록리스트.size() < 어레이길이) {
                                             기록리스트.add(i, 기록아이템);
-                                            Log.i("기록 들어갔나?"+i,기록리스트.toString());
+
 //                                            record_adapter.notifyItemInserted(i);
 
 
