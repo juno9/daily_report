@@ -92,17 +92,19 @@ public class Thread_receiver extends Thread {
     public void run() {
         try {
             while (true) {
-                Log.i("[내용받기쓰레드]반복문 작동여부 확인용", "도는 중");
+                Log.i("[내용받기쓰레드]반복문 작동여부 확인용 ", "도는 중, 쓰레드 Name: "+currentThread().getName()+" 쓰레드 ID: "+currentThread().getId());
                 메시지보낸유저 = 버퍼리더.readLine();
+
+
                 Log.i("[Thread_receiver] 서버로부터 받은 첫 메시지:",메시지보낸유저);
                 프리퍼런스헬퍼.set_sender_User_email(메시지보낸유저);//이 메시지를 보낸 유저는 받아올 수 있음
                 프리퍼런스헬퍼.set_receiver_User_email(로그인한유저);//이 메시지를 받는 유저도 알 수 있음
                 String 받은텍스트 = 버퍼리더.readLine();
                 Log.i("전달받은 텍스트", 받은텍스트);
                 Log.i("위치", 위치);
-//                if(받은텍스트.equals("/destroy")){
-//                    this.interrupt();
-//                }eelse {
+                if(받은텍스트.equals("/destroy")){
+                    this.interrupt();
+                }else {
                     if (대화중 && 위치.equals(메시지보낸유저)) {
                         Message msg2 = 핸들러.obtainMessage();
                         msg2.what = 1;
@@ -110,16 +112,12 @@ public class Thread_receiver extends Thread {
                         메시지목록.add(메시지아이템);
                         Log.i("[내용받기쓰레드]핸들러에 보낼 메시지 객체 의 what값을 설정함", "설정함");
                         핸들러.sendMessage(msg2);
-
                     }
-
                     else {
                         sendNotification(메시지보낸유저, 받은텍스트);
 
                     }
-//                }
-
-
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

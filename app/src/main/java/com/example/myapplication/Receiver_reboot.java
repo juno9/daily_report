@@ -12,13 +12,13 @@ public class Receiver_reboot extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i("[RebootReceiver]","온 리시브");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.i("[RebootReceiver]","sdk버전 오레오 이상");
-            Intent in = new Intent(context, Service_restart.class);
-            context.startForegroundService(in);
-            Log.i("[RebootReceiver]","service_restart 서비스 시작(포그라운드)");
+            if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+                context.startForegroundService(new Intent(context, Service_restart.class));
+            }
         } else {
-            Intent in = new Intent(context, Service_chat.class);
-            context.startService(in);
+            if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+                context.startService(new Intent(context, Service_restart.class));
+            }
         }
     }
 

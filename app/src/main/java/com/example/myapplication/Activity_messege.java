@@ -198,34 +198,34 @@ public class Activity_messege extends AppCompatActivity {
         };
 
         받기쓰레드 = (Thread_receiver) Service_chat.받기쓰레드;
-        if (받기쓰레드 == null) {
-            try {
-                InetAddress serverAddr = InetAddress.getByName(ip);
-                소켓 = new Socket(serverAddr, port);
-
-                InputStreamReader 인풋스트림 = new InputStreamReader(소켓.getInputStream());
-                OutputStreamWriter 아웃풋스트림라이터 = new OutputStreamWriter(소켓.getOutputStream());
-                프린트라이터 = new PrintWriter(아웃풋스트림라이터);
-                버퍼리더 = new BufferedReader(인풋스트림);
-
-                프린트라이터.println(유저메일);
-                프린트라이터.flush();//소켓 연결과 함께 유저의 이메일만 보내줌
-                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있는 경우", "서비스 시작하지 않음");
-                Thread_receiver 받기쓰레드2 = new Thread_receiver(this, 유저메일, 버퍼리더, 프린트라이터);
-                Service_chat.set받기쓰레드(받기쓰레드2);
-                받기쓰레드 = 받기쓰레드2;
-            } catch (Exception e) {
-
-            }
-            받기쓰레드.start();
-
-        }
+//        if (받기쓰레드 == null) {
+//            try {
+//                InetAddress serverAddr = InetAddress.getByName(ip);
+//                소켓 = new Socket(serverAddr, port);
+//
+//                InputStreamReader 인풋스트림 = new InputStreamReader(소켓.getInputStream());
+//                OutputStreamWriter 아웃풋스트림라이터 = new OutputStreamWriter(소켓.getOutputStream());
+//                프린트라이터 = new PrintWriter(아웃풋스트림라이터);
+//                버퍼리더 = new BufferedReader(인풋스트림);
+//
+//                프린트라이터.println(유저메일);
+//                프린트라이터.flush();//소켓 연결과 함께 유저의 이메일만 보내줌
+//                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있는 경우", "서비스 시작하지 않음");
+//                Thread_receiver 받기쓰레드2 = new Thread_receiver(this, 유저메일, 버퍼리더, 프린트라이터);
+//                Service_chat.set받기쓰레드(받기쓰레드2);
+//                받기쓰레드 = 받기쓰레드2;
+//            } catch (Exception e) {
+//
+//            }
+//            받기쓰레드.start();
+//
+//        }
 
 
         프린트라이터 = Service_chat.프린트라이터;
-        Log.i("[Activity_messege]", "");
+        Log.i("[Activity_messege]", "프린트라이터 설정함");
         버퍼리더 = Service_chat.버퍼리더;
-        Log.i("[Activity_messege]", "");
+        Log.i("[Activity_messege]", "버퍼리더 설정함");
         받기쓰레드.set핸들러(this.핸들러);
         Log.i("[Activity_messege]", "");
         받기쓰레드.대화중 = true;
