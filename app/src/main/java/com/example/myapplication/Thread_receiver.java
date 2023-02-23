@@ -94,6 +94,10 @@ public class Thread_receiver extends Thread {
             while (true) {
                 Log.i("[내용받기쓰레드]반복문 작동여부 확인용 ", "도는 중, 쓰레드 Name: "+currentThread().getName()+" 쓰레드 ID: "+currentThread().getId());
                 메시지보낸유저 = 버퍼리더.readLine();
+                if(메시지보낸유저==null){
+                    break;
+
+                }
 
 
                 Log.i("[Thread_receiver] 서버로부터 받은 첫 메시지:",메시지보낸유저);
@@ -207,7 +211,7 @@ public class Thread_receiver extends Thread {
                 .setContentTitle("Daily Report")
                 .setContentText(sender + ": " + messege)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_launcher_foreground);
+                .setSmallIcon(R.drawable.graycircle);
         // Manager를 통해 notification 디바이스로 전달
         mNotificationManager.notify(NOTIFICATION_ID, notifyBuilder.build());
     }

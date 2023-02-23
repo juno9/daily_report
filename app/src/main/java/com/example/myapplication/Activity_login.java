@@ -75,7 +75,6 @@ public class Activity_login extends AppCompatActivity {
 //        } else {
 
 
-
         TextView 비밀번호찾기 = findViewById(R.id.비밀번호찾기);
         비밀번호찾기.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,12 +131,13 @@ public class Activity_login extends AppCompatActivity {
                                                 Intent intent = new Intent(getApplicationContext(), Service_chat.class);
                                                 intent.putExtra("유저메일", 이메일입력.getText().toString());
                                                 if (isServiceRunning(getApplicationContext())) {
-
+                                                    Log.i("[Activity_login]", "Service_chat 작동중");
                                                     startActivityC(Activity_home.class);
                                                     finish();
                                                     Toast.makeText(getApplicationContext(), response + "님 반갑습니다", Toast.LENGTH_SHORT).show();
 
                                                 } else {
+                                                    Log.i("[Activity_login]", "Service_chat 작동중 아님");
                                                     startService(intent);
                                                     startActivityC(Activity_home.class);
                                                     finish();
@@ -179,19 +179,19 @@ public class Activity_login extends AppCompatActivity {
         });
 
         if (프리퍼런스헬퍼.getLogin() == true) {
-            Log.i("[Activity_login]자동로그인 참인 경우","자동로그인");
+            Log.i("[Activity_login]자동로그인 참인 경우", "자동로그인");
             String 유저메일 = 프리퍼런스헬퍼.getUser_email();
             Intent intent = new Intent(getApplicationContext(), Service_chat.class);
             intent.putExtra("유저메일", 유저메일);
 
             if (isServiceRunning(getApplicationContext())) {
-                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있는 경우","서비스 시작하지 않음");
+                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있는 경우", "서비스 시작하지 않음");
                 startActivityC(Activity_home.class);
                 finish();
                 Toast.makeText(getApplicationContext(), 유저메일 + "님 반갑습니다", Toast.LENGTH_SHORT).show();
 
             } else {
-                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있지 않은 경우","서비스 시작함");
+                Log.i("[Activity_login]자동로그인 참인 경우,서비스가 돌고 있지 않은 경우", "서비스 시작함");
                 startService(intent);
                 startActivityC(Activity_home.class);
                 finish();

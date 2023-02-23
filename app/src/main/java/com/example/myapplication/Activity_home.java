@@ -103,9 +103,11 @@ public class Activity_home extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        finishAffinity();
-        System.runFinalization();
-        System.exit(0);
+//        finishAffinity();
+//        System.runFinalization();
+        System.exit(2);
+        Intent intent=new Intent(getApplicationContext(),Service_chat.class);
+        stopService(intent);
     }
 
     @Override

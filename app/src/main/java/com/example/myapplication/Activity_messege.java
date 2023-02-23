@@ -75,7 +75,7 @@ public class Activity_messege extends AppCompatActivity {
     String url2;
     ImageView 뒤로가기;
     Bundle bundle;
-    Thread_receiver 받기쓰레드;
+    Service_chat.Thread_receiver 받기쓰레드;
     ImageView 프로필이미지뷰;
 //    내용받기쓰레드 내받스;
 
@@ -197,7 +197,7 @@ public class Activity_messege extends AppCompatActivity {
 
         };
 
-        받기쓰레드 = (Thread_receiver) Service_chat.받기쓰레드;
+        Service_chat.Thread_receiver 받기쓰레드 =  Service_chat.받기쓰레드;
 //        if (받기쓰레드 == null) {
 //            try {
 //                InetAddress serverAddr = InetAddress.getByName(ip);

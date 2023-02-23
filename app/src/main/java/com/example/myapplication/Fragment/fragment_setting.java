@@ -26,6 +26,7 @@ import com.example.myapplication.PreferenceHelper;
 import com.example.myapplication.Activity_profileupdate;
 import com.example.myapplication.Activity_pwchange;
 import com.example.myapplication.R;
+import com.example.myapplication.Service_chat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,11 +85,24 @@ public class fragment_setting extends Fragment {
         로그아웃.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 프리퍼런스헬퍼.setUser_email(null);
                 프리퍼런스헬퍼.setLogin(false);
+                프리퍼런스헬퍼.set_service_running(false);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            Service_chat.프린트라이터.println("/exit");
+                            Service_chat.프린트라이터.flush();
+
+                        } catch (Exception e) {
+                        }
+                    }
+                }.start();
 
                 startActivityC(Activity_login.class);
-
             }
         });
 
