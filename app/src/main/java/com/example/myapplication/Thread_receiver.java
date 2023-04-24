@@ -98,8 +98,6 @@ public class Thread_receiver extends Thread {
                     break;
 
                 }
-
-
                 Log.i("[Thread_receiver] 서버로부터 받은 첫 메시지:",메시지보낸유저);
                 프리퍼런스헬퍼.set_sender_User_email(메시지보낸유저);//이 메시지를 보낸 유저는 받아올 수 있음
                 프리퍼런스헬퍼.set_receiver_User_email(로그인한유저);//이 메시지를 받는 유저도 알 수 있음
@@ -194,7 +192,7 @@ public class Thread_receiver extends Thread {
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context.getApplicationContext());
 
-        intent3.putExtra("받는유저메일", 프리퍼런스헬퍼.get_sender_User_email());//이 메시지 보낸 사람은 이 에뮬레이터에 로그인한 유저가 보내는 메시지를 받을 사람과 동일인물
+        intent2.putExtra("받는유저메일", 프리퍼런스헬퍼.get_sender_User_email());//이 메시지 보낸 사람은 이 에뮬레이터에 로그인한 유저가 보내는 메시지를 받을 사람과 동일인물
         intent3.putExtra("이미지url스트링", 프리퍼런스헬퍼.get_imageurl());
 
         stackBuilder.addNextIntent(intent);

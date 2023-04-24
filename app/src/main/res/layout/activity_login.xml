@@ -34,24 +34,6 @@
         app:layout_constraintVertical_bias="0.026"
         app:srcCompat="@drawable/dailyreport" />
 
-    <EditText
-        android:id="@+id/입력란_이메일"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:background="@drawable/edittext_rounded_corner_rectangle"
-        android:ems="10"
-        android:hint="이메일 주소를 입력해주세요"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.408" />
-
     <TextView
         android:id="@+id/회원가입"
         android:layout_width="69dp"
@@ -98,10 +80,10 @@
         android:textColorHint="#808080"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/next_toolbar"
-        app:layout_constraintVertical_bias="0.625" />
+        app:layout_constraintVertical_bias="0.518" />
 
     <TextView
         android:id="@+id/입력값표시_비밀번호"
@@ -114,11 +96,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintHorizontal_bias="0.21"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/next_toolbar"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintVertical_bias="0.434" />
 
     <TextView
 
@@ -131,10 +113,28 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.233"
+        app:layout_constraintHorizontal_bias="0.204"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/next_toolbar"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.248" />
+
+    <EditText
+        android:id="@+id/입력란_이메일"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edittext_rounded_corner_rectangle"
+        android:ems="10"
+        android:hint="이메일 주소를 입력해주세요"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="#808080"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33" />
 
     <Button
         android:id="@+id/로그인버튼"

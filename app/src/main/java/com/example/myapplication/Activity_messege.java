@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -98,7 +100,7 @@ public class Activity_messege extends AppCompatActivity {
                 try {
                     프린트라이터.println("/quit");
                     프린트라이터.flush();
-                    받기쓰레드.set위치("");
+                    Service_chat.받기쓰레드.set위치("");
                     받기쓰레드 = null;
 //                    Intent intent = new Intent(getApplicationContext(), Activity_home.class);
 //                    intent.putExtra("user_email", 받는유저메일);
@@ -160,6 +162,7 @@ public class Activity_messege extends AppCompatActivity {
         프리퍼런스헬퍼 = new PreferenceHelper(getApplicationContext());
         Log.i("[Activity_messege]", "");
         유저메일 = 프리퍼런스헬퍼.getUser_email();//로그인되어 있는 유저의 이메일 보내는 유저 이메일
+
         Log.i("[Activity_messege]", "");
 
         받는유저메일 = intent.getStringExtra("받는유저메일");//메시지를 받는 유저의 이메일
@@ -384,7 +387,16 @@ public class Activity_messege extends AppCompatActivity {
         }
     }//이전 채팅 목록 받아오는 코드
 
+    public static boolean isServiceRunning(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
+        for (ActivityManager.RunningServiceInfo rsi : am.getRunningServices(Integer.MAX_VALUE)) {
+            if (Service_chat.class.getName().equals(rsi.service.getClassName())) //[서비스이름]에 본인 것을 넣는다.
+                return true;
+        }
+
+        return false;
+    }
 }
 
 

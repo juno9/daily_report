@@ -166,7 +166,10 @@ public class Activity_sign_up extends AppCompatActivity {
             public void onClick(View view) {
                 String 입력된인증번호 = 인증번호입력.getText().toString();
                 Log.i("입력된 인증번호", 입력된인증번호);
-                Log.i("저장된 인증번호", 인증번호);
+                if (인증번호 == null) {
+                    Toast.makeText(getApplicationContext(), "인증번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+                } else{
+                    Log.i("저장된 인증번호", 인증번호);
                 if (입력된인증번호.equals(인증번호)) {
                     인증안내메시지.setTextColor(Color.parseColor("#009900"));
                     인증안내메시지.setText("인증이 완료되었습니다.");
@@ -184,6 +187,7 @@ public class Activity_sign_up extends AppCompatActivity {
                     인증안내메시지.setText("인증번호가 일치하지 않습니다.");
                     인증여부체크 = 0;
                 }
+            }
             }
         });
 

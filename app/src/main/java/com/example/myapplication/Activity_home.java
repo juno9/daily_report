@@ -105,7 +105,7 @@ public class Activity_home extends AppCompatActivity {
 
 //        finishAffinity();
 //        System.runFinalization();
-        System.exit(2);
+//        System.exit(0);
         Intent intent=new Intent(getApplicationContext(),Service_chat.class);
         stopService(intent);
     }

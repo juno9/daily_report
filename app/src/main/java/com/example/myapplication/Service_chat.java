@@ -122,7 +122,7 @@ public class Service_chat extends Service {
             }
         }.start();//받기 쓰레드 시작
 
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override
@@ -138,9 +138,9 @@ public class Service_chat extends Service {
 
         }
 
-        serviceIntent = null;
+
         setAlarmTimer();
-        Thread.currentThread().interrupt();
+//        Thread.currentThread().interrupt();
         if (받기쓰레드 != null) {
             받기쓰레드.interrupt();
             Log.i("[Service_chat]", "받기 쓰레드 인터럽트 함");

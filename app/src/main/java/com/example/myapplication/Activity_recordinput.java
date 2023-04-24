@@ -52,7 +52,7 @@ public class Activity_recordinput extends AppCompatActivity {
     Date 선택된종료날짜시간date;
     Date 오늘날짜시간;
     Date 시작날짜시간;
-    Date 종료날짜시간;
+//    Date 종료날짜시간;
     String url;
     SimpleDateFormat 넣을값데이트바꿀형식;
 
@@ -206,30 +206,33 @@ public class Activity_recordinput extends AppCompatActivity {
                             시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
 
                             String 시작시간스트링=시작날짜입력.getText().toString()+시작시간입력.getText().toString();
-                            String 종료시간스트링=시작날짜입력.getText().toString()+종료시간입력.getText().toString();
+
+                           //Log.i("종료날짜",종료날짜입력.getText().toString());
+                            Log.i("종료시간",종료시간입력.getText().toString());
+//                            String 종료시간스트링=종료날짜입력.getText().toString()+종료시간입력.getText().toString();
                             Log.i("시작시간",시작시간스트링);
-                            Log.i("종료시간",종료시간스트링);
+//                            Log.i("종료시간",종료시간스트링);
                             try {
                                 시작날짜시간=넣을값데이트바꿀형식.parse(시작시간스트링);
-                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
+//                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            if (시작날짜시간.after(종료날짜시간)) {
-                                if(시간<10) {
-                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            } else {
-                                if(시간<10) {
-                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            }
+//                            if (시작날짜시간.after(종료날짜시간)) {
+//                                if(시간<10) {
+//                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            } else {
+//                                if(시간<10) {
+//                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            }
 
                         }
                         else {
@@ -241,25 +244,25 @@ public class Activity_recordinput extends AppCompatActivity {
                             Log.i("종료시간",종료시간스트링);
                             try {
                                 시작날짜시간=넣을값데이트바꿀형식.parse(시작시간스트링);
-                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
+//                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            if (시작날짜시간.after(종료날짜시간)) {
-                                if(시간<10) {
-                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            } else {
-                                if(시간<10) {
-                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            }
+//                            if (시작날짜시간.after(종료날짜시간)) {
+//                                if(시간<10) {
+//                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            } else {
+//                                if(시간<10) {
+//                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            }
                         }
                     }
                 }, 시, 분, false);
@@ -282,32 +285,33 @@ public class Activity_recordinput extends AppCompatActivity {
                         if (시간 > 12) {
                             시간 -= 12;
 
-                            종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+                            종료시간입력.setText("PM 0" + 시간 + "시 " + 분표시 + "분");
                             String 시작시간스트링=시작날짜입력.getText().toString()+시작시간입력.getText().toString();
                             String 종료시간스트링=시작날짜입력.getText().toString()+종료시간입력.getText().toString();
                             Log.i("시작시간",시작시간스트링);
                             Log.i("종료시간",종료시간스트링);
                             try {
                                 시작날짜시간=넣을값데이트바꿀형식.parse(시작시간스트링);
-                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
+//                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            if (종료날짜시간.after(시작날짜시간)) {//종료시간이 시작시간 이후면
-                                if(시간<10) {
-                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            } else {
-                                if(시간<10) {
-                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            }
+//                            if (종료날짜시간.after(시작날짜시간)) {//종료시간이 시작시간 이후면
+//                                if(시간<10) {
+//                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            }
+//                            else {
+//                                if(시간<10) {
+//                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            }
 
                         }
                         else {
@@ -319,25 +323,25 @@ public class Activity_recordinput extends AppCompatActivity {
                             Log.i("종료시간",종료시간스트링);
                             try {
                                 시작날짜시간=넣을값데이트바꿀형식.parse(시작시간스트링);
-                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
+//                                종료날짜시간=넣을값데이트바꿀형식.parse(종료시간스트링);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            if (종료날짜시간.after(시작날짜시간)) {//종료시간이 시작시간 이후면
-                                if(시간<10) {
-                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            } else {
-                                if(시간<10) {
-                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
-                                }else{
-                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
-                                }
-                            }
+//                            if (종료날짜시간.after(시작날짜시간)) {//종료시간이 시작시간 이후면
+//                                if(시간<10) {
+//                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            } else {
+//                                if(시간<10) {
+//                                    시작시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 0" + 시간 + "시 " + 분표시 + "분");
+//                                }else{
+//                                    시작시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                    종료시간입력.setText("오후 " + 시간 + "시 " + 분표시 + "분");
+//                                }
+//                            }
                         }
                     }
                 }, 시, 분, false);
@@ -384,7 +388,7 @@ public class Activity_recordinput extends AppCompatActivity {
                     SimpleDateFormat DB넣을시간형식 = new SimpleDateFormat("kk:mm:00");
                     String 보낼시작날짜 = DB넣을날짜형식.format(선택된시작날짜시간date);
                     String 보낼시작시간 = DB넣을시간형식.format(선택된시작날짜시간date);
-                    String 보낼종료날짜 = DB넣을날짜형식.format(선택된종료날짜시간date);
+                    String 보낼종료날짜 = DB넣을날짜형식.format(선택된시작날짜시간date);
                     String 보낼종료시간 = DB넣을시간형식.format(선택된종료날짜시간date);
 
 
@@ -426,8 +430,8 @@ public class Activity_recordinput extends AppCompatActivity {
                             Log.i("start_date", 보낼시작날짜);
                             params.put("start_time", 보낼시작시간);
                             Log.i("start_time", 보낼시작시간);
-                            params.put("end_date", 보낼종료날짜);//시작시간-타임피커에서 시간을 선택된 시간을 텍스트뷰에 설정하면 그 값을 스트링으로 받아와 넣어준다.
-                            Log.i("end_date", 보낼종료날짜);
+                            params.put("end_date", 보낼시작날짜);//시작시간-타임피커에서 시간을 선택된 시간을 텍스트뷰에 설정하면 그 값을 스트링으로 받아와 넣어준다.
+                            Log.i("end_date", 보낼시작날짜);
                             params.put("end_time", 보낼종료시간);
                             Log.i("end_time", 보낼종료시간);
                             params.put("title", 제목입력.getText().toString());
