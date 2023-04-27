@@ -52,7 +52,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Activity_messege extends AppCompatActivity {
+public class Activity_messege extends AppCompatActivity  {
 
     ListView 채팅리스트뷰;
     EditText 입력창;
@@ -80,7 +80,7 @@ public class Activity_messege extends AppCompatActivity {
     Service_chat.Thread_receiver 받기쓰레드;
     ImageView 프로필이미지뷰;
 //    내용받기쓰레드 내받스;
-
+private View rootView;
     @Override
     protected void onPause() {
         super.onPause();
@@ -185,6 +185,10 @@ public class Activity_messege extends AppCompatActivity {
         Log.i("[Activity_messege]", "");
 
 
+
+
+
+
         핸들러 = new Handler() {
 
             @Override
@@ -230,15 +234,17 @@ public class Activity_messege extends AppCompatActivity {
         버퍼리더 = Service_chat.버퍼리더;
         Log.i("[Activity_messege]", "버퍼리더 설정함");
         받기쓰레드.set핸들러(this.핸들러);
-        Log.i("[Activity_messege]", "");
+
         받기쓰레드.대화중 = true;
-        Log.i("[Activity_messege]", "");
+
         받기쓰레드.set대화상대(받는유저메일);
-        Log.i("[Activity_messege]", "");
+
         받기쓰레드.set메시지목록(메시지목록);
-        Log.i("[Activity_messege]", "");
+
         받기쓰레드.set위치(받는유저메일);
-        Log.i("[Activity_messege]", "");
+
+
+
 
 
         new Thread() {
@@ -330,15 +336,10 @@ public class Activity_messege extends AppCompatActivity {
 
                                     for (int i = 0; i < 어레이길이; i++) {//반복문 돌면서 어레이 안의 채팅 내용들을 뺴내자
                                         String 제이슨아이템 = 제이슨어레이.get(i).toString();//첫번째 기록 값을 스트링으로 받는다
-
                                         JSONObject 아이템제이슨 = new JSONObject(제이슨아이템);
-
                                         String 보낸유저메일 = 아이템제이슨.getString("sender_email");
-
                                         String 받은유저메일 = 아이템제이슨.getString("receiver_email");
-
                                         String 시간 = 아이템제이슨.getString("time");
-
                                         String 내용 = 아이템제이슨.getString("contents");
 
                                         //기록 아이템은 만들어 줌
@@ -397,7 +398,10 @@ public class Activity_messege extends AppCompatActivity {
 
         return false;
     }
-}
+
+
+    }
+
 
 
 

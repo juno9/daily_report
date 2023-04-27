@@ -132,7 +132,6 @@ public class Activity_login extends AppCompatActivity {
                                                 intent.putExtra("유저메일", 이메일입력.getText().toString());
                                                 if (isServiceRunning(getApplicationContext())) {
                                                     Log.i("[Activity_login]", "Service_chat 작동중");
-
                                                     startActivityC(Activity_home.class);
                                                     finish();
                                                     Toast.makeText(getApplicationContext(), response + "님 반갑습니다", Toast.LENGTH_SHORT).show();

@@ -11,15 +11,15 @@ public class Item_record {
     String 키값;
 
 
-    public Item_record(String 유저메일, String 시작날짜, String 시작시간, String 종료날짜, String 종료시간, String 받은제목, String 받은내용 , String 키값) {
-        this.유저메일=유저메일;
+    public Item_record(String 유저메일, String 시작날짜, String 시작시간, String 종료날짜, String 종료시간, String 받은제목, String 받은내용, String 키값) {
+        this.유저메일 = 유저메일;
         this.시작날짜 = 시작날짜;
         this.시작시간 = 시작시간;
         this.종료날짜 = 종료날짜;
         this.종료시간 = 종료시간;
-        this.제목=받은제목;
+        this.제목 = 받은제목;
         this.내용 = 받은내용;
-        this.키값=키값;
+        this.키값 = 키값;
     }//생성자
 
     public String get키값() {
@@ -37,6 +37,8 @@ public class Item_record {
     public String get유저메일() {
         return 유저메일;
     }
+
+
 
     public String get내용() {
         return 내용;

@@ -120,7 +120,7 @@ String ip= ipclass.ip;
 //                Log.i("큐 생성", "큐 생성");
 //
                         String url = "http://"+ip+"/get_followingdata.php";
-//                Log.i("url 생성", "유알엘생성");
+
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
 

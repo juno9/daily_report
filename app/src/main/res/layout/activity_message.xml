@@ -6,31 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/이미지뷰_프로필이미지"
-        android:layout_width="81dp"
-        android:layout_height="66dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
-        app:srcCompat="@drawable/graycircle" />
-
-    <EditText
-        android:background="@drawable/edge"
-        android:id="@+id/입력란_채팅내용"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.985" />
-
     <ImageView
         android:id="@+id/이미지뷰_뒤로가기2"
         android:layout_width="26dp"
@@ -43,28 +18,52 @@ android:textColor="@color/black"
         app:layout_constraintVertical_bias="0.037"
         app:srcCompat="@drawable/leftangle" />
 
-    <ListView
-       android:id="@+id/리스트뷰_채팅내용"
-       android:layout_width="match_parent"
-       android:layout_height="580dp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       android:transcriptMode="alwaysScroll"
-       />
-
     <TextView
         android:id="@+id/텍스트뷰_상대유저이름"
         android:layout_width="175dp"
         android:layout_height="45dp"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/리스트뷰_채팅내용"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintStart_toEndOf="@+id/이미지뷰_뒤로가기2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.516" />
+
+    <EditText
+        android:id="@+id/입력란_채팅내용"
+        android:layout_width="326dp"
+        android:layout_height="45dp"
+        android:background="@drawable/edge"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.296"
+        app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.956" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/이미지뷰_프로필이미지"
+        android:layout_width="81dp"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.004"
+        app:srcCompat="@drawable/graycircle" />
+
+    <ListView
+        android:id="@+id/리스트뷰_채팅내용"
+        android:layout_width="match_parent"
+        android:layout_height="580dp"
+        android:transcriptMode="alwaysScroll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/버튼_전송"
@@ -73,10 +72,10 @@ android:textColor="@color/black"
         android:text="전송"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.976" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

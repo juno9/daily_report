@@ -85,7 +85,6 @@ public class fragment_setting extends Fragment {
         로그아웃.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 프리퍼런스헬퍼.setUser_email(null);
                 프리퍼런스헬퍼.setLogin(false);
                 프리퍼런스헬퍼.set_service_running(false);
@@ -96,13 +95,15 @@ public class fragment_setting extends Fragment {
                         try {
                             Service_chat.프린트라이터.println("/exit");
                             Service_chat.프린트라이터.flush();
-
                         } catch (Exception e) {
                         }
                     }
                 }.start();
-
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
                 startActivityC(Activity_login.class);
+
             }
         });
 
