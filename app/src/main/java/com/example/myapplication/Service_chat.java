@@ -55,6 +55,7 @@ import java.util.Map;
 
 public class Service_chat extends Service {
     String ip = ipclass.ip;
+    String sourceurl=ipclass.url;
     int port = ipclass.port;
     public static PrintWriter 프린트라이터;
     public static BufferedReader 버퍼리더;
@@ -444,7 +445,7 @@ public class Service_chat extends Service {
                 RequestQueue queue = Volley.newRequestQueue(context);
 //            Log.i("큐 생성", "큐 생성");
 
-                String url = "http://" + ip + "/get_userdata.php";
+                String url = sourceurl + "get_userdata.php";
 //            Log.i("url 생성", "유알엘생성");
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

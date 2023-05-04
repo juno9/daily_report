@@ -43,6 +43,7 @@ public class Activity_messege_backup extends AppCompatActivity {
     ListView 채팅리스트뷰;
     EditText 입력창;
     Button 보내기버튼;
+    String sourceurl=ipclass.url;
     TextView 상대유저이름;
     Socket 소켓;
     String 주소 = ipclass.ip;
@@ -202,7 +203,7 @@ public class Activity_messege_backup extends AppCompatActivity {
                 Log.i("[gethistory]조건문 진입", "진입");
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 Log.i("[gethistory]큐 생성", "큐 생성");
-                String url = "http://" + 주소 + "/get_message.php";
+                String url = sourceurl+"get_message.php";
                 Log.i("[gethistory]url 생성", "유알엘생성");
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

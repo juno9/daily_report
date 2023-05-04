@@ -49,6 +49,7 @@ import java.util.Map;
 
 public class Thread_receiver extends Thread {
     Context context;
+    String sourceurl=ipclass.url;
     String 로그인한유저;
     String ip = ipclass.ip;
     int port = ipclass.port;
@@ -288,7 +289,7 @@ public class Thread_receiver extends Thread {
             RequestQueue queue = Volley.newRequestQueue(context);
 //            Log.i("큐 생성", "큐 생성");
 
-            String url = "http://" + ip + "/get_userdata.php";
+            String url = sourceurl + "get_userdata.php";
 //            Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {

@@ -27,6 +27,7 @@ import com.example.myapplication.Activity_profileupdate;
 import com.example.myapplication.Activity_pwchange;
 import com.example.myapplication.R;
 import com.example.myapplication.Service_chat;
+import com.example.myapplication.ipclass;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +37,7 @@ import java.net.Socket;
 public class fragment_setting extends Fragment {
 
     private ViewGroup view;
+    String sourceurl= ipclass.url;
 
     private String TAG = "세팅프래그먼트";
 

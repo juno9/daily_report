@@ -38,6 +38,7 @@ public class Activity_recordupdate extends AppCompatActivity {
 
     EditText 내용입력;
     String ip = ipclass.ip;
+    String sourceurl=ipclass.url;
     TextView 시작날짜입력;
     TextView 시작시간입력;
     TextView 종료날짜입력;
@@ -521,7 +522,7 @@ public class Activity_recordupdate extends AppCompatActivity {
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     //요청큐 생성
 
-                    url = "http://" + ip + "/update_record.php";
+                    url = sourceurl+ "update_record.php";
 
 
                     String 보낼시작날짜 = 선택된날짜date변환용 .format(시작날짜시간);

@@ -32,6 +32,7 @@ import javax.mail.SendFailedException;
 
 public class Activity_sign_up extends AppCompatActivity {
     String ip=ipclass.ip;
+    String sourceurl=ipclass.url;
     EditText 닉네임입력;
     EditText 이메일입력;
     EditText 인증번호입력;
@@ -275,7 +276,7 @@ public class Activity_sign_up extends AppCompatActivity {
                                         // Instantiate the RequestQueue.
                                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                         Log.i("큐 생성함", String.valueOf(queue));
-                                        String url = "http://"+ip+"/signup.php";
+                                        String url = sourceurl+"signup.php";
                                         Log.i("url주소 스트링으로 선언", url);
                                         // Request a string response from the provided URL.
                                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,new Response.Listener<String>() {

@@ -54,6 +54,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Activity_profileupdate extends AppCompatActivity {
     String ip=ipclass.ip;
+    String sourceurl=ipclass.url;
+
     String TAG = "Activity_profileupdate";
     CircleImageView 프로필이미지;
     ImageView 카메라이미지;
@@ -119,7 +121,7 @@ public class Activity_profileupdate extends AppCompatActivity {
                         Log.i("조건문 진입", "진입");
                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                         Log.i("큐 생성", "큐 생성");
-                        String url = "http://"+ip+"/update_userprofile.php";
+                        String url = sourceurl+"update_userprofile.php";
                         Log.i("url 생성", "유알엘생성");
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {

@@ -55,6 +55,7 @@ import java.util.Map;
 public class Activity_messege extends AppCompatActivity  {
 
     ListView 채팅리스트뷰;
+    String sourceurl=ipclass.url;
     EditText 입력창;
     Button 보내기버튼;
     TextView 상대유저이름;
@@ -316,7 +317,7 @@ private View rootView;
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-                String url = "http://" + ip + "/get_message.php";
+                String url = sourceurl + "get_message.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

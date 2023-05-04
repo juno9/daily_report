@@ -37,6 +37,7 @@ import java.util.Map;
 public class Activity_recordinput extends AppCompatActivity {
     EditText 제목입력;
     String ip = ipclass.ip;
+    String sourceurl=ipclass.url;
     EditText 내용입력;
     TextView 시작날짜입력;
     TextView 시작시간입력;
@@ -452,7 +453,7 @@ public class Activity_recordinput extends AppCompatActivity {
                         Log.i("조건문 진입", "진입");
                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                         Log.i("큐 생성", "큐 생성");
-                        String url = "http://" + ip + "/put_record.php";
+                        String url = sourceurl + "put_record.php";
                         Log.i("url 생성", "유알엘생성");
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {

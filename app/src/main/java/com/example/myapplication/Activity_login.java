@@ -39,6 +39,7 @@ import java.util.Map;
 
 public class Activity_login extends AppCompatActivity {
     String ip = ipclass.ip;
+    String sourceurl=ipclass.url;
     EditText 이메일입력;
     EditText 비밀번호입력;
     PreferenceHelper 프리퍼런스헬퍼;
@@ -110,7 +111,7 @@ public class Activity_login extends AppCompatActivity {
                             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                             //요청큐 생성
 
-                            String url = "http://" + ip + "/login.php";
+                            String url = sourceurl+"login.php";
                             //url 스트링값 생성
 
 

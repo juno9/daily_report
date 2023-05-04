@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class Activity_pwchange extends AppCompatActivity {
     String ip=ipclass.ip;
-
+    String sourceurl=ipclass.url;
     EditText 현재비밀번호;
     EditText 새비밀번호;
     EditText 새비밀번호확인;
@@ -135,7 +135,7 @@ public class Activity_pwchange extends AppCompatActivity {
                                     // Instantiate the RequestQueue.
                                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                     Log.i("que", String.valueOf(queue));
-                                    String url = "http://"+ip+"/password_change.php";
+                                    String url = sourceurl+"password_change.php";
                                     Log.i("url", url);
                                     // Request a string response from the provided URL.
                                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

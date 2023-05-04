@@ -51,6 +51,7 @@ import java.util.Map;
 
 public class fragment_home extends Fragment {
     String ip= ipclass.ip;
+    String sourceurl=ipclass.url;
     String TAG = "홈프래그먼트";
     ViewGroup 뷰;
     RecyclerView week_recycler;//주 날짜 표시 리사이클러뷰 선언
@@ -405,7 +406,7 @@ public class fragment_home extends Fragment {
         if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
             RequestQueue queue = Volley.newRequestQueue(getActivity());
             //요청큐 생성
-            String url = "http://"+ip+"/get_record.php";
+            String url = sourceurl+"get_record.php";
             //url 스트링값 생성
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {

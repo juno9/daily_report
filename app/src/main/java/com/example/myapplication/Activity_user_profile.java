@@ -76,6 +76,7 @@ public class Activity_user_profile extends AppCompatActivity {
     boolean following;
     String 프로필이미지스트링;
     URL url2;
+    String sourceurl=ipclass.url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +205,7 @@ public class Activity_user_profile extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             Log.i("큐 생성", "큐 생성");
 
-            String url = "http://" + ip + "/get_userdata.php";
+            String url = sourceurl+ "/get_userdata.php";
             Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -249,7 +250,7 @@ public class Activity_user_profile extends AppCompatActivity {
                                                 //서버에 올려둔 이미지 URL
 
 //                                                URL url2 = new URL("http://192.168.219.157/images/" + 프로필이미지스트링);
-                                                url2 = new URL("http://" + ip + "/images/" + 프로필이미지스트링);
+                                                url2 = new URL(sourceurl+ "/images/" + 프로필이미지스트링);
                                                 HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                 conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                 conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
@@ -357,7 +358,7 @@ public class Activity_user_profile extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             //요청큐 생성
 
-            String url = "http://" + ip + "/get_record.php";
+            String url = sourceurl + "/get_record.php";
             //url 스트링값 생성
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -467,7 +468,7 @@ public class Activity_user_profile extends AppCompatActivity {
 //            Log.i("조건문 진입", "진입");
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 //            Log.i("큐 생성", "큐 생성");
-            String url = "http://" + ip + "/get_followdata.php";
+            String url = sourceurl + "/get_followdata.php";
 
 //            Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

@@ -48,6 +48,7 @@ import java.util.Map;
 
 public class fragment_friends extends Fragment {
 String ip= ipclass.ip;
+    String sourceurl=ipclass.url;
     private View view;
     ImageView 검색버튼;
     private String TAG = "[fragment_friends]";
@@ -119,7 +120,7 @@ String ip= ipclass.ip;
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
 //                Log.i("큐 생성", "큐 생성");
 //
-                        String url = "http://"+ip+"/get_followingdata.php";
+                        String url = sourceurl+"get_followingdata.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
@@ -161,7 +162,7 @@ String ip= ipclass.ip;
                                                 public void run() {
                                                     try {
                                                         //서버에 올려둔 이미지 URL
-                                                        URL url2 = new URL("http://"+ip+"/images/" + 프로필이미지스트링);
+                                                        URL url2 = new URL(sourceurl+"images/" + 프로필이미지스트링);
                                                         HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                         conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                         conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
