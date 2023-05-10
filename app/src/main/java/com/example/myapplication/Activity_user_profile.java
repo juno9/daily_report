@@ -609,7 +609,7 @@ public class Activity_user_profile extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 //            Log.i("큐 생성", "큐 생성");
 
-            String url = "http://" + ip + "/unfollow.php";
+            String url = sourceurl+ "/unfollow.php";
 //            Log.i("url 생성", "유알엘생성");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {

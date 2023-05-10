@@ -121,7 +121,7 @@ public class Activity_profileupdate extends AppCompatActivity {
                         Log.i("조건문 진입", "진입");
                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                         Log.i("큐 생성", "큐 생성");
-                        String url = sourceurl+"update_userprofile.php";
+                        String url = sourceurl+"/update_userprofile.php";
                         Log.i("url 생성", "유알엘생성");
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {
@@ -189,7 +189,7 @@ public class Activity_profileupdate extends AppCompatActivity {
                 Log.i("조건문 진입", "진입");
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 Log.i("큐 생성", "큐 생성");
-                String url = "http://"+ip+"/get_userdata.php";
+                String url = sourceurl+"/get_userdata.php";
                 Log.i("url 생성", "유알엘생성");
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
@@ -235,7 +235,7 @@ public class Activity_profileupdate extends AppCompatActivity {
                                                 try{
                                                     //서버에 올려둔 이미지 URL
 
-                                                    URL url2 = new URL("http://"+ip+"/images/"+프로필이미지스트링);
+                                                    URL url2 = new URL(sourceurl+"/images/"+프로필이미지스트링);
                                                     HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                                                     conn.setDoInput(true); //Server 통신에서 입력 가능한 상태로 만듦
                                                     conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)

@@ -7,12 +7,12 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class ipclass {
-    public static String ip = "172.30.1.78";
+    public static String ip = "10.10.121.31";
     public static String url="http://"+ip+"/android/";
 
 
 //        public static String ip ="3.38.210.33";
-    public static int port = 10002;
+    public static int port = 10001;
 
 
     public static String IpAddress() {
